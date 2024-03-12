@@ -1,0 +1,38 @@
+[
+  {
+    "id": "crepioca-de-frango",
+    "name": "Crepioca de frango",
+    "description": "",
+    "price": 15.00,
+    "image": "example.png",
+    "category": "Frango",
+    "tags": ["Sem glúten", "Sem lactose"]
+  },
+  {
+    "id": "crepioca-de-frango",
+    "name": "Crepioca de frango",
+    "description": "",
+    "price": 15.00,
+    "image": "example.png",
+    "category": "Frango",
+    "tags": ["Sem glúten", "Sem lactose"]
+  },
+  {
+    "id": "crepioca-de-frango",
+    "name": "Crepioca de frango",
+    "description": "",
+    "price": 15.00,
+    "image": "example.png",
+    "category": "Frango",
+    "tags": ["Sem glúten", "Sem lactose"]
+  },
+  {
+    "id": "crepioca-de-frango",
+    "name": "Crepioca de frango",
+    "description": "",
+    "price": 15.00,
+    "image": "example.png",
+    "category": "Frango",
+    "tags": ["Sem glúten", "Sem lactose"]
+  }
+]
