@@ -6,7 +6,16 @@
     "price": 15.00,
     "image": "example.png",
     "category": "Frango",
-    "tags": ["Sem glúten", "Sem lactose"]
+    "tags": ["Sem glúten", "Sem lactose", "Vegetariano"]
+  },
+  {
+    "id": "crepioca-de-frango",
+    "name": "Crepioca de frango",
+    "description": "",
+    "price": 15.00,
+    "image": "example.png",
+    "category": "Carne bovina",
+    "tags": ["Sem lactose", "Vegetariano"]
   },
   {
     "id": "crepioca-de-frango",
@@ -24,6 +33,15 @@
     "price": 15.00,
     "image": "example.png",
     "category": "Frango",
+    "tags": ["Sem lactose", "Vegetariano"]
+  },
+  {
+    "id": "crepioca-de-frango",
+    "name": "Crepioca de frango",
+    "description": "",
+    "price": 15.00,
+    "image": "example.png",
+    "category": "Porções",
     "tags": ["Sem glúten", "Sem lactose"]
   },
   {
@@ -33,6 +51,24 @@
     "price": 15.00,
     "image": "example.png",
     "category": "Frango",
+    "tags": ["Sem lactose", "Vegetariano"]
+  },
+  {
+    "id": "crepioca-de-frango",
+    "name": "Crepioca de frango",
+    "description": "",
+    "price": 15.00,
+    "image": "example.png",
+    "category": "Carne bovina",
+    "tags": ["Sem glúten", "Sem lactose"]
+  },
+  {
+    "id": "crepioca-de-frango",
+    "name": "Crepioca de frango",
+    "description": "",
+    "price": 15.00,
+    "image": "example.png",
+    "category": "Sopas e Cremes",
     "tags": ["Sem glúten", "Sem lactose"]
   }
 ]
