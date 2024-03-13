@@ -12,7 +12,7 @@ export default function Layout({ children, modal }: Readonly<Props>) {
       <main className="flex flex-col items-start justify-start pb-safe max-w-5xl mx-auto">
         <div className="flex items-center justify-center pl-4 w-full h-12">
           <Link href="/" className="font-bold text-2xl">
-            Delícias Tia Sandra
+            Delícias da Tia Sandra
           </Link>
         </div>
         <div className="relative w-full">
