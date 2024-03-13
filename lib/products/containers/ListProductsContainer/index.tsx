@@ -16,7 +16,7 @@ function productsByCategories(products: Product[]) {
 const productsByCategoriesData = productsByCategories(loadedProducts);
 const categories = productsByCategoriesData.map(({ category }) => category).filter((value, index, self) => self.indexOf(value) === index);
 
-function ListProductsContainer() {
+export default function ListProductsContainer() {
   return (
     <div className="relative">
       <ListProductsCategories categories={categories} />
@@ -24,5 +24,3 @@ function ListProductsContainer() {
     </div>
   );
 };
-
-export default ListProductsContainer;

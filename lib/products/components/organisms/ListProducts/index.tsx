@@ -9,12 +9,12 @@ type Props = {
   }[];
 }
 
-function ListProducts({ productsByCategories }: Readonly<Props>) {
+export default function ListProducts({ productsByCategories }: Readonly<Props>) {
   return (
     <div>
       {productsByCategories.map(({ category, products }) => (
-        <div key={category} id={category} className="scroll-mt-8">
-          <div className="sticky top-8 z-10 bg-secondary-20 px-4 py-2 font-semibold text-primary-400">
+        <div key={category} id={category} className="scroll-mt-10">
+          <div className="sticky top-10 z-10 bg-primary-80 px-4 py-2 font-semibold text-primary-400">
             {category}
           </div>
           <div className="grid md:gap-2 w-full md:grid-cols-2 divide-y divide-black/15 md:divide-y-0">
@@ -25,5 +25,3 @@ function ListProducts({ productsByCategories }: Readonly<Props>) {
     </div>
   );
 }
-
-export default ListProducts;

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 type Props = {
   modal: React.ReactNode;
   children: React.ReactNode;
@@ -5,19 +7,23 @@ type Props = {
 
 export default function Layout({ children, modal }: Readonly<Props>) {
   return (
-    <main className="flex min-h-screen flex-col items-start justify-start">
+    <div>
       {modal}
-      <div className="bg-primary-10 w-full h-10">
-        Nome da empresa
-      </div>
-      <div className="relative">
-        {children}
-      </div>
-      <div className="fixed bottom-0 bg-white w-screen z-20 pb-safe">
-        <div className="bg-primary-60 h-14">
-          footer - carrinho
+      <main className="flex flex-col items-start justify-start pb-safe max-w-5xl mx-auto">
+        <div className="flex items-center justify-center pl-4 w-full h-12">
+          <Link href="/" className="font-bold text-2xl">
+            Delícias Tia Sandra
+          </Link>
         </div>
-      </div>
-    </main>
+        <div className="relative w-full">
+          {children}
+        </div>
+        {/* <div className="fixed bottom-0 bg-white w-screen z-20 pb-safe">
+          <div className="bg-primary-60 h-14">
+            footer - carrinho
+          </div>
+        </div> */}
+      </main>
+    </div>
   );
 }

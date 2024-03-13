@@ -6,6 +6,41 @@
     "price": 15.00,
     "image": "example.png",
     "category": "Frango",
+    "ingredients": "Frango, ovo, tapioca, queijo, tomate, cebola, sal, pimenta do reino",
+    "allergens": "Ovo, leite, glúten",
+    "tags": ["Sem glúten", "Sem lactose", "Vegetariano"]
+  },
+  {
+    "id": "crepioca-de-frango",
+    "name": "Crepioca de frango",
+    "description": "",
+    "price": 15.00,
+    "image": "example.png",
+    "category": "Frango",
+    "ingredients": "Frango, ovo, tapioca, queijo, tomate, cebola, sal, pimenta do reino",
+    "allergens": "Ovo, leite, glúten",
+    "tags": ["Sem glúten", "Sem lactose", "Vegetariano"]
+  },
+  {
+    "id": "crepioca-de-frango",
+    "name": "Crepioca de frango",
+    "description": "",
+    "price": 15.00,
+    "image": "example.png",
+    "category": "Frango",
+    "ingredients": "Frango, ovo, tapioca, queijo, tomate, cebola, sal, pimenta do reino",
+    "allergens": "Ovo, leite, glúten",
+    "tags": ["Sem glúten", "Sem lactose", "Vegetariano"]
+  },
+  {
+    "id": "crepioca-de-frango",
+    "name": "Crepioca de frango",
+    "description": "",
+    "price": 15.00,
+    "image": "example.png",
+    "category": "Frango",
+    "ingredients": "Frango, ovo, tapioca, queijo, tomate, cebola, sal, pimenta do reino",
+    "allergens": "Ovo, leite, glúten",
     "tags": ["Sem glúten", "Sem lactose", "Vegetariano"]
   },
   {
@@ -15,6 +50,8 @@
     "price": 15.00,
     "image": "example.png",
     "category": "Carne bovina",
+    "ingredients": "Frango, ovo, tapioca, queijo, tomate, cebola, sal, pimenta do reino",
+    "allergens": "Ovo, leite, glúten",
     "tags": ["Sem lactose", "Vegetariano"]
   },
   {
@@ -24,6 +61,8 @@
     "price": 15.00,
     "image": "example.png",
     "category": "Frango",
+    "ingredients": "Frango, ovo, tapioca, queijo, tomate, cebola, sal, pimenta do reino",
+    "allergens": "Ovo, leite, glúten",
     "tags": ["Sem glúten", "Sem lactose"]
   },
   {
@@ -33,6 +72,8 @@
     "price": 15.00,
     "image": "example.png",
     "category": "Frango",
+    "ingredients": "Frango, ovo, tapioca, queijo, tomate, cebola, sal, pimenta do reino",
+    "allergens": "Ovo, leite, glúten",
     "tags": ["Sem lactose", "Vegetariano"]
   },
   {
@@ -42,6 +83,8 @@
     "price": 15.00,
     "image": "example.png",
     "category": "Porções",
+    "ingredients": "Frango, ovo, tapioca, queijo, tomate, cebola, sal, pimenta do reino",
+    "allergens": "Ovo, leite, glúten",
     "tags": ["Sem glúten", "Sem lactose"]
   },
   {
@@ -51,6 +94,8 @@
     "price": 15.00,
     "image": "example.png",
     "category": "Frango",
+    "ingredients": "Frango, ovo, tapioca, queijo, tomate, cebola, sal, pimenta do reino",
+    "allergens": "Ovo, leite, glúten",
     "tags": ["Sem lactose", "Vegetariano"]
   },
   {
@@ -60,6 +105,8 @@
     "price": 15.00,
     "image": "example.png",
     "category": "Carne bovina",
+    "ingredients": "Frango, ovo, tapioca, queijo, tomate, cebola, sal, pimenta do reino",
+    "allergens": "Ovo, leite, glúten",
     "tags": ["Sem glúten", "Sem lactose"]
   },
   {
@@ -69,6 +116,8 @@
     "price": 15.00,
     "image": "example.png",
     "category": "Sopas e Cremes",
+    "ingredients": "Frango, ovo, tapioca, queijo, tomate, cebola, sal, pimenta do reino",
+    "allergens": "Ovo, leite, glúten",
     "tags": ["Sem glúten", "Sem lactose"]
   }
 ]

@@ -3,7 +3,7 @@ import Product from "@/products/entities/Product";
 import Image from "next/image";
 import Link from "next/link";
 
-function ListProductItem({ id, category, description, image, price, tags, name }: Readonly<Product>) {
+export default function ListProductItem({ id, category, description, image, price, tags, name }: Readonly<Product>) {
   return (
     <Link href={`/${id}`} className="flex justify-between p-4">
       <div className="w-full flex flex-col min-h-24">
@@ -21,5 +21,3 @@ function ListProductItem({ id, category, description, image, price, tags, name }
     </Link>
   )
 }
-
-export default ListProductItem;

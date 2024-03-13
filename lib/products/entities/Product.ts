@@ -9,6 +9,8 @@ export const productSchema = yup.object().shape({
   description: yup.string().required(),
   image: yup.string().required(),
   category: yup.string().oneOf(productCategories).defined(),
+  ingredients: yup.string().required(),
+  allergens: yup.string().required(),
   tags: yup.array().of(yup.string().oneOf(productTags).defined()).required()
 });
 
