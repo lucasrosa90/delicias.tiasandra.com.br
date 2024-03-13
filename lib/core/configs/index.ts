@@ -1,7 +1,7 @@
 const configs = {
   settings: {
-    currency: 'USD',
-    locale: 'en-US'
+    currency: 'BRL',
+    locale: 'pt-BR'
   }
 };
 

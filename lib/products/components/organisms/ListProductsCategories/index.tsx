@@ -1,23 +1,28 @@
-import Product from "@/products/entities/Product";
+'use client';
+
+import ProductCategory from "@/products/entities/ProductCategory";
 
 type Props = {
-  products: Product[];
+  categories: ProductCategory[];
 }
 
-// List all products categories. Should not have repeated categories.
-function listProductsCategories(products: Product[]) {
-  return products.map(product => product.category).filter((value, index, self) => self.indexOf(value) === index);
+function scrollToHash(hash: string) {
+  const element = document.getElementById(hash);
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
 }
 
-function ListProductsCategories({ products }: Readonly<Props>) {
-  const categories = listProductsCategories(products);
+function ListProductsCategories({ categories }: Readonly<Props>) {
   return (
-    <div className="flex w-full overflow-x-auto">
+    <div className="sticky top-0 bg-filled z-20 w-screen">
+      <div className="flex w-full overflow-x-auto h-8 items-center">
       {categories.map((category) => (
-        <div key={category} className="sticky top-0 z-10 bg-primary/10 px-4 py-2 font-semibold w-full text-center whitespace-nowrap">
+        <a onClick={() => scrollToHash(category)} key={category} className="sticky top-0 z-10 px-2 font-semibold w-full text-center whitespace-nowrap text-sm">
           {category}
-        </div>
+        </a>
       ))}
+      </div>
     </div>
   )
 }

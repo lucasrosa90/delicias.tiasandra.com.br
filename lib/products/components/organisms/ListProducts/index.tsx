@@ -1,25 +1,20 @@
 import Product from "@/products/entities/Product";
-import { productCategories } from "@/products/entities/ProductCategory";
+import ProductCategory from "@/products/entities/ProductCategory";
 import ListProductItem from "../../molecules/ListProductItem";
 
 type Props = {
-  products: Product[];
+  productsByCategories: {
+    category: ProductCategory;
+    products: Product[];
+  }[];
 }
 
-function productsByCategories(products: Product[]) {
-  return productCategories.map((category) => ({
-    category,
-    products: products.filter((product) => product.category === category)
-  }));
-}
-
-function ListProducts({ products }: Readonly<Props>) {
-  const productsByCategory = productsByCategories(products);
+function ListProducts({ productsByCategories }: Readonly<Props>) {
   return (
     <div>
-      {productsByCategory.map(({ category, products }) => (
-        <div key={category}>
-          <div className="sticky top-0 z-10 bg-primary/25 px-4 py-2 font-semibold">
+      {productsByCategories.map(({ category, products }) => (
+        <div key={category} id={category} className="scroll-mt-8">
+          <div className="sticky top-8 z-10 bg-secondary-20 px-4 py-2 font-semibold text-primary-400">
             {category}
           </div>
           <div className="grid md:gap-2 w-full md:grid-cols-2 divide-y divide-black/15 md:divide-y-0">
