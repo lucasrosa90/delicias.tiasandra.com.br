@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function ListProductItem({ id, category, description, image, price, tags, name }: Readonly<Product>) {
   return (
-    <Link href={`/${id}`} className="flex justify-between p-4">
+    <Link href={`/${id}`} className="flex justify-between p-4 gap-2">
       <div className="w-full flex flex-col min-h-24">
         <h3 className="text-lg font-semibold text-primary-300">{name}</h3>
         <p className="text-primary text-xs">

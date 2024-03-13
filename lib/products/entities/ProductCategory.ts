@@ -2,8 +2,8 @@ export const productCategories = [
   'Frango',
   'Carne bovina',
   'Sopas e Cremes',
-  'Bolos Saudáveis',
   'Porções',
+  'Bolos Saudáveis',
 ] as const;
 
 type ProductCategory = typeof productCategories[number];
