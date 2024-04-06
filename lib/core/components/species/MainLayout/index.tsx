@@ -1,17 +1,15 @@
 import Link from "next/link";
 
 type Props = {
-  modal: React.ReactNode;
   children: React.ReactNode;
 };
 
-export default function Layout({ children, modal }: Readonly<Props>) {
+export default function MainLayout({ children }: Readonly<Props>) {
   return (
     <div>
-      {modal}
-      <main className="flex flex-col items-start justify-start pb-safe max-w-5xl mx-auto">
+      <main className="flex flex-col items-start justify-start pb-safe max-w-screen-xl mx-auto">
         <div className="flex items-center justify-center pl-4 w-full h-12">
-          <Link href="/" className="font-bold text-2xl">
+          <Link href="/" className="font-semibold text-2xl">
             Delícias da Tia Sandra
           </Link>
         </div>

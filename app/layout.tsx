@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Oswald } from "next/font/google";
 import "./globals.css";
+import MainLayout from "@/core/components/species/MainLayout";
 
-const inter = Inter({ subsets: ["latin"] });
+const oswald = Oswald({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
@@ -29,7 +30,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} has-[#backdrop]:overflow-hidden overflow-auto`}>{children}</body>
+      <body className={`${oswald.className} has-[#backdrop]:overflow-hidden overflow-auto`}>
+        <MainLayout>
+          {children}
+        </MainLayout>
+      </body>
     </html>
   );
 }

@@ -1,6 +1,7 @@
 export const productTags = [
   'Sem gluten',
   'Sem lactose',
+  'Sem leite',
   'Vegetariano'
 ] as const;
 
