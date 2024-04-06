@@ -30,7 +30,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en">
-      <body className={`${oswald.className} has-[#backdrop]:overflow-hidden overflow-auto`}>
+      <body className={oswald.className}>
         <MainLayout>
           {children}
         </MainLayout>
