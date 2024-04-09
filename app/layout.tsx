@@ -27,13 +27,14 @@ export const viewport: Viewport = {
   themeColor: '#ffffff', // '#f8bb21'
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
+export default function RootLayout({ children, modal }: Readonly<{ children: React.ReactNode; modal: React.ReactNode; }>) {
   return (
     <html lang="en">
-      <body className={oswald.className}>
+      <body className={`${oswald.className} [&:has(#backdrop)]:overflow-hidden`}>
         <MainLayout>
           {children}
         </MainLayout>
+        {modal}
       </body>
     </html>
   );
