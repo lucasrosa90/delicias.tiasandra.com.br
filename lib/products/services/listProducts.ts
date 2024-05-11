@@ -13,7 +13,7 @@ function productsByCategories(products: Product[]) {
       category,
       products: products.filter(product => product.category === category),
     }))
-    .filter(({ products }) => products.length > 0)
+    .filter(({ products: filteredProducts }) => filteredProducts.length > 0)
 }
 
 export default function listProducts(category?: string) {

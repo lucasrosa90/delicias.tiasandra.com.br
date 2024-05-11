@@ -16,6 +16,7 @@ type Props = {
   selected: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapCategoryToSVG: Record<string, any> = {
   bolos: SVGbolos,
   carne: SVGcarne,

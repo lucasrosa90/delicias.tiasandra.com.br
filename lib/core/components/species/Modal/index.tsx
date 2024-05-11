@@ -19,7 +19,7 @@ type ModalProps = {
   position?: BackdropPosition
 }
 export default function Modal({ position, children }: Readonly<ModalProps>) {
-  const [title, setTitle] = useState<string>()
+  const [, setTitle] = useState<string>()
   const { back } = useRouter()
 
   return (

@@ -71,6 +71,7 @@ export function isObject(value: unknown): value is object {
   return typeof value === 'object'
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function isFunction(value: unknown): value is Function {
   return typeof value === 'function'
 }
@@ -93,6 +94,7 @@ type MappedTypes = {
   boolean: boolean
   number: number
   object: object
+  // eslint-disable-next-line @typescript-eslint/ban-types
   function: Function
 }
 export function hasDefinedPropertyType<T extends object, P extends string, Type extends keyof MappedTypes>(

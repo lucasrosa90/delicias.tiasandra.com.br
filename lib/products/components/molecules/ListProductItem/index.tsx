@@ -5,11 +5,12 @@ import formatCurrency from '@/core/helpers/format/currency'
 import slugify from '@/core/utils/slugify'
 import Product from '@/products/entities/Product'
 
-export default function ListProductItem({ id, category, description, image, price, tags, name }: Readonly<Product>) {
+export default function ListProductItem({ id, category, image, price, tags, name }: Readonly<Product>) {
   return (
     <Link
       href={`/produtos/${slugify(category)}/${id}`}
-      className="group flex w-full flex-col justify-center gap-2 rounded-md border border-black/5 bg-white p-4 transition hover:bg-black/5 hover:shadow-sm"
+      className={`group flex w-full flex-col justify-center gap-2 rounded-md border
+      border-black/5 bg-white p-4 transition hover:bg-black/5 hover:shadow-sm`}
     >
       {image && (
         <div className="h-full">
