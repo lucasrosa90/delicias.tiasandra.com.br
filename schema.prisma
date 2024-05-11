@@ -1,0 +1,164 @@
+// prisma/schema.prisma
+
+datasource db {
+  provider = "postgresql"  // Specifies the database provider, PostgreSQL in this case.
+  url      = env("DATABASE_URL")  // The database URL is sourced from environment variables.
+}
+
+generator client {
+  provider = "prisma-client-js"  // Specifies the Prisma client for JavaScript.
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator" // Specifies the DBML generator for Prisma.
+}
+
+// Represents the category of products.
+model Category {
+  id         String    @id @default(uuid()) @db.Uuid
+  name       String    /// Name of the category. @minLength 1
+  products   Product[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+}
+
+// Represents potential allergens in products.
+model Allergen {
+  id         String    @id @default(uuid()) @db.Uuid
+  name       String    /// Name of the allergen. @minLength 1
+  products   Product[] @relation("ProductAllergens")
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+}
+
+// Represents tags that can be assigned to products for better categorization.
+model Tag {
+  id         String    @id @default(uuid()) @db.Uuid
+  name       String    /// Name of the tag. @minLength 1
+  products   Product[] @relation("ProductTags")
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+}
+
+// Represents a product which can belong to a category, have allergens, and tags.
+model Product {
+  id          String             @id @default(uuid()) @db.Uuid
+  name        String             /// Name of the product. @minLength 1
+  description String             /// Description of the product.
+  ingredients String             /// Ingredients of the product.
+  image       String?            /// URL or path to the product image.
+  categoryId  String             @db.Uuid /// Link to the category of this product. @minLength 1
+  category    Category           @relation(fields: [categoryId], references: [id])
+  production  Production[]       /// Production logs of this product.
+  salesDetails SaleDetail[]      /// Sales details for transactions involving this product.
+  allergens   Allergen[]         @relation("ProductAllergens")
+  tags        Tag[]              @relation("ProductTags")
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  deletedAt   DateTime?
+}
+
+// Represents production details of a product.
+model Production {
+  id            String    @id @default(uuid()) @db.Uuid
+  productId     String    @db.Uuid /// Link to the product produced. @minLength 1
+  quantity      Int       /// Amount produced.
+  productionDate DateTime /// Date of production.
+  product       Product   @relation(fields: [productId], references: [id])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+}
+
+// Represents a client who can have multiple contacts and addresses.
+model Client {
+  id         String          @id @default(uuid()) @db.Uuid
+  name       String          /// Name of the client. @minLength 1
+  contacts   ClientContact[] /// Contacts associated with the client.
+  sales      Sale[]          /// Sales made to this client.
+  addresses  Address[]       /// Addresses of this client.
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  deletedAt  DateTime?
+}
+
+// Represents contact details of a client.
+model ClientContact {
+  id          String  @id @default(uuid()) @db.Uuid
+  clientId    String  @db.Uuid /// Link to the client associated with this contact. @minLength 1
+  contactType String  /// Type of contact, e.g., 'Email', 'Phone'. @minLength 1
+  contactValue String /// Actual contact detail, e.g., email address or phone number. @minLength 1
+  client      Client  @relation(fields: [clientId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+}
+
+// Represents an address associated with a client.
+model Address {
+  id          String  @id @default(uuid()) @db.Uuid
+  clientId    String  @db.Uuid /// Link to the client associated with this address. @minLength 1
+  address     String  /// Street address of the client. @minLength 1
+  number      String  /// House number. @minLength 1
+  complement  String? /// Optional address complement.
+  reference   String? /// Optional address reference.
+  city        String  /// City of the address. @minLength 1
+  state       String  /// State of the address. @minLength 1
+  zipCode     String  /// Postal code of the address. @minLength 1
+  client      Client  @relation(fields: [clientId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+}
+
+// Represents a sale made to a client.
+model Sale {
+  id             String         @id @default(uuid()) @db.Uuid
+  clientId       String         @db.Uuid /// Link to the client who made the sale. @minLength 1
+  address        String         /// Address of delivery. @minLength 1
+  number         String         /// House number of delivery. @minLength 1
+  complement     String?        /// Optional address complement for delivery.
+  reference      String?        /// Optional address reference for delivery.
+  city           String         /// City of delivery. @minLength 1
+  state          String         /// State of delivery. @minLength 1
+  zipCode        String         /// Postal code of delivery. @minLength 1
+  saleDate       DateTime       /// Date of the sale.
+  paymentStatus  String         /// Payment status (e.g., Paid, Pending). @minLength 1
+  paymentMethod  String         /// Payment method (e.g., Cash, Credit Card). @minLength 1
+  deliveryStatus String         /// Status of the delivery (e.g., Delivered, In Transit). @minLength 1
+  client         Client         @relation(fields: [clientId], references: [id])
+  saleDetails    SaleDetail[]   /// Details of items sold.
+  saleHistory    SaleHistory[]  /// Historical log of the sale's progress.
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  deletedAt      DateTime?
+}
+
+// Details of each item sold in a sale.
+model SaleDetail {
+  id            String   @id @default(uuid()) @db.Uuid
+  saleId        String   @db.Uuid /// Link to the sale this detail belongs to. @minLength 1
+  productId     String   @db.Uuid /// Link to the product sold. @minLength 1
+  quantity      Int      /// Quantity of the product sold.
+  salePrice     Float    /// Sale price of the product at the time of the sale.
+  sale          Sale     @relation(fields: [saleId], references: [id])
+  product       Product  @relation(fields: [productId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  deletedAt     DateTime?
+}
+
+// Historical log of the sale's progress.
+model SaleHistory {
+  id            String   @id @default(uuid()) @db.Uuid
+  saleId        String   @db.Uuid /// Link to the sale this history belongs to. @minLength 1
+  status        String   /// Current status of the sale (e.g., Payment Pending, Payment Completed). @minLength 1
+  timestamp     DateTime /// Timestamp of the status update.
+  sale          Sale     @relation(fields: [saleId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  deletedAt     DateTime?
+}

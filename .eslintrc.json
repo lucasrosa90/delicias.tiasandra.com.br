@@ -1,3 +1,103 @@
 {
-  "extends": "next/core-web-vitals"
+  /**
+   * @typescript-eslint/parser
+   * @typescript-eslint/eslint-plugin
+   */
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@tanstack/query", "@typescript-eslint"],
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:tailwindcss/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
+    "prettier"
+  ],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js"],
+      "parser": "@typescript-eslint/parser"
+    }
+  ],
+  "rules": {
+    "prefer-arrow-callback": "error",
+    "no-debugger": "error",
+    "no-empty": "error",
+    "no-unneeded-ternary": "error",
+    "no-else-return": "warn",
+    "no-useless-concat": "error",
+    "no-irregular-whitespace": "error",
+    "no-loop-func": "error",
+    "no-new": "error",
+    "no-var": "error",
+    "no-shadow": "error",
+
+    "object-shorthand": ["error", "always"],
+    "prefer-destructuring": ["error", { "AssignmentExpression": { "array": false } }],
+    "prefer-const": ["error", { "destructuring": "all" }],
+    "arrow-body-style": "error",
+    "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before" } }],
+    "valid-typeof": "error",
+    "no-use-before-define": "error",
+    "no-unused-expressions": "warn",
+    "one-var": ["error", "never"],
+    "consistent-this": ["error", "that"],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "import/first": ["error"],
+    "dot-notation": "error",
+    "curly": "error",
+
+    "complexity": ["error", 10],
+    "max-depth": ["error", 4],
+    "quote-props": ["error", "as-needed"],
+    "key-spacing": ["error", { "beforeColon": false, "afterColon": true }],
+    "space-unary-ops": ["error", { "words": true, "nonwords": false }],
+    "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+    "no-console": ["warn"],
+    "no-trailing-spaces": "error",
+    "yoda": ["error", "never"],
+    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+
+    "@typescript-eslint/no-require-imports": "error",
+    "@typescript-eslint/quotes": "off",
+    "camelcase": ["error", { "ignoreDestructuring": true, "properties": "never" }],
+
+    "semi": "off",
+    "@typescript-eslint/semi": ["error", "never"],
+    "@typescript-eslint/no-unused-expressions": "off",
+    "@typescript-eslint/unbound-method": "off",
+    "quotes": ["error", "single", { "avoidEscape": true }],
+    "@typescript-eslint/keyword-spacing": "off",
+    "@typescript-eslint/no-unused-vars": ["error", { "ignoreRestSiblings": true, "argsIgnorePattern": "^_ignore" }],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "interface",
+        "format": ["PascalCase"],
+        "custom": { "regex": "^I[A-Z]", "match": false }
+      }
+    ],
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/method-signature-style": "error",
+    "@typescript-eslint/no-invalid-void-type": "error",
+
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxBOF": 0, "maxEOF": 0 }],
+    "no-unused-private-class-members": "error",
+
+    "max-len": ["error", { "code": 120, "ignorePattern": "d=\"([\\s\\S]*?)\"" }],
+    "import/order": [
+      "error",
+      {
+        "alphabetize": { "caseInsensitive": false, "order": "asc" },
+        "pathGroups": [
+          { "pattern": "{react,next,next/**}", "group": "builtin", "position": "before" },
+          { "pattern": "{@/server/**}", "group": "internal", "position": "before" },
+          { "pattern": "@/**", "group": "internal", "position": "after" }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "newlines-between": "always",
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object"]
+      }
+    ]
+  }
 }

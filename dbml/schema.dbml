@@ -1,0 +1,168 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Category {
+  id String [pk]
+  name String [not null, note: 'Name of the category. @minLength 1']
+  products Product [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+}
+
+Table Allergen {
+  id String [pk]
+  name String [not null, note: 'Name of the allergen. @minLength 1']
+  products Product [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+}
+
+Table Tag {
+  id String [pk]
+  name String [not null, note: 'Name of the tag. @minLength 1']
+  products Product [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+}
+
+Table Product {
+  id String [pk]
+  name String [not null, note: 'Name of the product. @minLength 1']
+  description String [not null, note: 'Description of the product.']
+  ingredients String [not null, note: 'Ingredients of the product.']
+  image String [note: 'URL or path to the product image.']
+  categoryId String [not null, note: 'Link to the category of this product. @minLength 1']
+  category Category [not null]
+  production Production [not null, note: 'Production logs of this product.']
+  salesDetails SaleDetail [not null, note: 'Sales details for transactions involving this product.']
+  allergens Allergen [not null]
+  tags Tag [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+}
+
+Table Production {
+  id String [pk]
+  productId String [not null, note: 'Link to the product produced. @minLength 1']
+  quantity Int [not null, note: 'Amount produced.']
+  productionDate DateTime [not null, note: 'Date of production.']
+  product Product [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+}
+
+Table Client {
+  id String [pk]
+  name String [not null, note: 'Name of the client. @minLength 1']
+  contacts ClientContact [not null, note: 'Contacts associated with the client.']
+  sales Sale [not null, note: 'Sales made to this client.']
+  addresses Address [not null, note: 'Addresses of this client.']
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+}
+
+Table ClientContact {
+  id String [pk]
+  clientId String [not null, note: 'Link to the client associated with this contact. @minLength 1']
+  contactType String [not null, note: 'Type of contact, e.g., \'Email\', \'Phone\'. @minLength 1']
+  contactValue String [not null, note: 'Actual contact detail, e.g., email address or phone number. @minLength 1']
+  client Client [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+}
+
+Table Address {
+  id String [pk]
+  clientId String [not null, note: 'Link to the client associated with this address. @minLength 1']
+  address String [not null, note: 'Street address of the client. @minLength 1']
+  number String [not null, note: 'House number. @minLength 1']
+  complement String [note: 'Optional address complement.']
+  reference String [note: 'Optional address reference.']
+  city String [not null, note: 'City of the address. @minLength 1']
+  state String [not null, note: 'State of the address. @minLength 1']
+  zipCode String [not null, note: 'Postal code of the address. @minLength 1']
+  client Client [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+}
+
+Table Sale {
+  id String [pk]
+  clientId String [not null, note: 'Link to the client who made the sale. @minLength 1']
+  address String [not null, note: 'Address of delivery. @minLength 1']
+  number String [not null, note: 'House number of delivery. @minLength 1']
+  complement String [note: 'Optional address complement for delivery.']
+  reference String [note: 'Optional address reference for delivery.']
+  city String [not null, note: 'City of delivery. @minLength 1']
+  state String [not null, note: 'State of delivery. @minLength 1']
+  zipCode String [not null, note: 'Postal code of delivery. @minLength 1']
+  saleDate DateTime [not null, note: 'Date of the sale.']
+  paymentStatus String [not null, note: 'Payment status (e.g., Paid, Pending). @minLength 1']
+  paymentMethod String [not null, note: 'Payment method (e.g., Cash, Credit Card). @minLength 1']
+  deliveryStatus String [not null, note: 'Status of the delivery (e.g., Delivered, In Transit). @minLength 1']
+  client Client [not null]
+  saleDetails SaleDetail [not null, note: 'Details of items sold.']
+  saleHistory SaleHistory [not null, note: 'Historical log of the sale\'s progress.']
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+}
+
+Table SaleDetail {
+  id String [pk]
+  saleId String [not null, note: 'Link to the sale this detail belongs to. @minLength 1']
+  productId String [not null, note: 'Link to the product sold. @minLength 1']
+  quantity Int [not null, note: 'Quantity of the product sold.']
+  salePrice Float [not null, note: 'Sale price of the product at the time of the sale.']
+  sale Sale [not null]
+  product Product [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+}
+
+Table SaleHistory {
+  id String [pk]
+  saleId String [not null, note: 'Link to the sale this history belongs to. @minLength 1']
+  status String [not null, note: 'Current status of the sale (e.g., Payment Pending, Payment Completed). @minLength 1']
+  timestamp DateTime [not null, note: 'Timestamp of the status update.']
+  sale Sale [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  deletedAt DateTime
+}
+
+Table ProductAllergens {
+  productsId String [ref: > Product.id]
+  allergensId String [ref: > Allergen.id]
+}
+
+Table ProductTags {
+  productsId String [ref: > Product.id]
+  tagsId String [ref: > Tag.id]
+}
+
+Ref: Product.categoryId > Category.id
+
+Ref: Production.productId > Product.id
+
+Ref: ClientContact.clientId > Client.id
+
+Ref: Address.clientId > Client.id
+
+Ref: Sale.clientId > Client.id
+
+Ref: SaleDetail.saleId > Sale.id
+
+Ref: SaleDetail.productId > Product.id
+
+Ref: SaleHistory.saleId > Sale.id
