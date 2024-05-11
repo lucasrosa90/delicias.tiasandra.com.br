@@ -1,8 +1,8 @@
 const configs = {
   settings: {
     currency: 'BRL',
-    locale: 'pt-BR'
-  }
-};
+    locale: 'pt-BR',
+  },
+}
 
-export default configs;
+export default configs

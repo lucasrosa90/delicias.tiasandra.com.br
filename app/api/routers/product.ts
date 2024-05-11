@@ -1,6 +1,7 @@
 // /app/api/routers/product.ts
-import { t } from '../trpc'
 import { z } from 'zod'
+
+import { t } from '../trpc'
 
 const ProductInput = z.object({
   name: z.string(),
@@ -22,43 +23,47 @@ const ProductTagInput = z.object({
 
 export const productRouter = t.router({
   getAll: t.procedure
-    .query(async ({ ctx }) => {
-      return await ctx.prisma.product.findMany({
-        where: { deletedAt: null },
-        select: { id: true, name: true, price: true, categoryId: true },
-      })
-    })
+    .query(
+      async ({ ctx }) =>
+        await ctx.prisma.product.findMany({
+          where: { deletedAt: null },
+          select: { id: true, name: true, price: true, categoryId: true },
+        }),
+    )
     .output(z.array(ProductOutput)),
 
   get: t.procedure
     .input(z.string())
-    .query(async ({ ctx, input }) => {
-      return await ctx.prisma.product.findUnique({
-        where: { id: input, deletedAt: null },
-        select: { id: true, name: true, price: true, categoryId: true },
-      })
-    })
+    .query(
+      async ({ ctx, input }) =>
+        await ctx.prisma.product.findUnique({
+          where: { id: input, deletedAt: null },
+          select: { id: true, name: true, price: true, categoryId: true },
+        }),
+    )
     .output(ProductOutput.nullable()),
 
   create: t.procedure
     .input(ProductInput)
-    .mutation(async ({ ctx, input }) => {
-      return await ctx.prisma.product.create({
-        data: input,
-        select: { id: true, name: true, price: true, categoryId: true },
-      })
-    })
+    .mutation(
+      async ({ ctx, input }) =>
+        await ctx.prisma.product.create({
+          data: input,
+          select: { id: true, name: true, price: true, categoryId: true },
+        }),
+    )
     .output(ProductOutput),
 
   update: t.procedure
     .input(ProductInput.extend({ id: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      return await ctx.prisma.product.update({
-        where: { id: input.id, deletedAt: null },
-        data: input,
-        select: { id: true, name: true, price: true, categoryId: true },
-      })
-    })
+    .mutation(
+      async ({ ctx, input }) =>
+        await ctx.prisma.product.update({
+          where: { id: input.id, deletedAt: null },
+          data: input,
+          select: { id: true, name: true, price: true, categoryId: true },
+        }),
+    )
     .output(ProductOutput),
 
   delete: t.procedure

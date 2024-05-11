@@ -1,6 +1,7 @@
 // /app/api/routers/production.ts
-import { t } from '../trpc'
 import { z } from 'zod'
+
+import { t } from '../trpc'
 
 const ProductionInput = z.object({
   productId: z.string(),
@@ -9,22 +10,25 @@ const ProductionInput = z.object({
 })
 
 export const productionRouter = t.router({
-  logProduction: t.procedure.input(ProductionInput).mutation(async ({ ctx, input }) => {
-    return await ctx.prisma.production.create({
-      data: input,
-    })
-  }),
+  logProduction: t.procedure.input(ProductionInput).mutation(
+    async ({ ctx, input }) =>
+      await ctx.prisma.production.create({
+        data: input,
+      }),
+  ),
 
-  updateProduction: t.procedure.input(ProductionInput.extend({ id: z.string() })).mutation(async ({ ctx, input }) => {
-    return await ctx.prisma.production.update({
-      where: { id: input.id },
-      data: input,
-    })
-  }),
+  updateProduction: t.procedure.input(ProductionInput.extend({ id: z.string() })).mutation(
+    async ({ ctx, input }) =>
+      await ctx.prisma.production.update({
+        where: { id: input.id },
+        data: input,
+      }),
+  ),
 
-  deleteProduction: t.procedure.input(z.string()).mutation(async ({ ctx, input }) => {
-    return await ctx.prisma.production.delete({
-      where: { id: input },
-    })
-  }),
+  deleteProduction: t.procedure.input(z.string()).mutation(
+    async ({ ctx, input }) =>
+      await ctx.prisma.production.delete({
+        where: { id: input },
+      }),
+  ),
 })

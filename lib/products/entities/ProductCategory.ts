@@ -1,10 +1,4 @@
-export const productCategories = [
-  'Frango',
-  'Carne',
-  'Sopas',
-  'Porções',
-  'Bolos',
-] as const;
+export const productCategories = ['Frango', 'Carne', 'Sopas', 'Porções', 'Bolos'] as const
 
-type ProductCategory = typeof productCategories[number];
-export default ProductCategory;
+type ProductCategory = (typeof productCategories)[number]
+export default ProductCategory

@@ -1,32 +1,38 @@
-'use client';
+'use client'
 
-import { createContext, useContext, useState } from "react";
+import { useRouter } from 'next/navigation'
+import { createContext, useContext, useState } from 'react'
 
-import Backdrop, { BackdropPosition } from "../../atoms/Backdrop";
-import { assertIsDefined, isType } from "@/core/utils/assertions";
-import { useRouter } from "next/navigation";
+import { assertIsDefined, isType } from '@/core/utils/assertions'
 
-import CloseSVG from "./x.svg";
+import Backdrop, { BackdropPosition } from '../../atoms/Backdrop'
+
+import CloseSVG from './x.svg'
 
 type ModalContextProps = {
-  setTitle: (title: string) => void;
-};
-const ModalContext = createContext<ModalContextProps>({} as unknown as ModalContextProps);
+  setTitle: (title: string) => void
+}
+const ModalContext = createContext<ModalContextProps>({} as unknown as ModalContextProps)
 
 type ModalProps = {
-  children?: React.ReactNode;
-  position?: BackdropPosition;
+  children?: React.ReactNode
+  position?: BackdropPosition
 }
 export default function Modal({ position, children }: Readonly<ModalProps>) {
-  const [title, setTitle] = useState<string>();
-  const { back } = useRouter();
+  const [title, setTitle] = useState<string>()
+  const { back } = useRouter()
 
   return (
     <ModalContext.Provider value={{ setTitle }}>
       <Backdrop position={position}>
-        <div className="flex flex-col bg-white rounded-lg [&>*]:p-4 w-full h-fit max-w-[48rem] md:my-8 min-h-fit relative">
+        <div className="relative flex h-fit min-h-fit w-full max-w-3xl flex-col rounded-lg bg-white md:my-8 [&>*]:p-4">
           <div className="absolute right-0 top-0">
-            <a onClick={() => back()} className="cursor-pointer"><CloseSVG /></a>
+            <a
+              onClick={() => back()}
+              className="cursor-pointer"
+            >
+              <CloseSVG />
+            </a>
           </div>
           {children}
         </div>
@@ -35,10 +41,10 @@ export default function Modal({ position, children }: Readonly<ModalProps>) {
   )
 }
 
-export function useSetModalTitle(): ModalContextProps["setTitle"] | undefined {
-  const context = useContext(ModalContext);
+export function useSetModalTitle(): ModalContextProps['setTitle'] | undefined {
+  const context = useContext(ModalContext)
   if (isType(context, assertIsDefined) && isType(context.setTitle, assertIsDefined)) {
-    return context.setTitle;
+    return context.setTitle
   }
-  return undefined;
+  return undefined
 }

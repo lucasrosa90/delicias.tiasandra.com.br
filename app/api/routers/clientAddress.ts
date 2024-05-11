@@ -1,6 +1,7 @@
 // /app/api/routers/clientAddress.ts
-import { t } from '../trpc'
 import { z } from 'zod'
+
+import { t } from '../trpc'
 
 const AddressInput = z.object({
   clientId: z.string(),
@@ -11,22 +12,25 @@ const AddressInput = z.object({
 })
 
 export const clientAddressRouter = t.router({
-  addAddress: t.procedure.input(AddressInput).mutation(async ({ ctx, input }) => {
-    return await ctx.prisma.address.create({
-      data: input,
-    })
-  }),
+  addAddress: t.procedure.input(AddressInput).mutation(
+    async ({ ctx, input }) =>
+      await ctx.prisma.address.create({
+        data: input,
+      }),
+  ),
 
-  updateAddress: t.procedure.input(AddressInput.extend({ id: z.string() })).mutation(async ({ ctx, input }) => {
-    return await ctx.prisma.address.update({
-      where: { id: input.id },
-      data: input,
-    })
-  }),
+  updateAddress: t.procedure.input(AddressInput.extend({ id: z.string() })).mutation(
+    async ({ ctx, input }) =>
+      await ctx.prisma.address.update({
+        where: { id: input.id },
+        data: input,
+      }),
+  ),
 
-  deleteAddress: t.procedure.input(z.string()).mutation(async ({ ctx, input }) => {
-    return await ctx.prisma.address.delete({
-      where: { id: input },
-    })
-  }),
+  deleteAddress: t.procedure.input(z.string()).mutation(
+    async ({ ctx, input }) =>
+      await ctx.prisma.address.delete({
+        where: { id: input },
+      }),
+  ),
 })

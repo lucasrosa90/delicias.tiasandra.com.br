@@ -1,44 +1,54 @@
-import { httpBatchLink } from '@trpc/client'
-import { createTRPCNext } from '@trpc/next'
+import {
+  createTRPCReact,
+  createWSClient,
+  httpBatchLink,
+  inferReactQueryProcedureOptions,
+  loggerLink,
+  splitLink,
+  wsLink,
+} from '@trpc/react-query'
+import { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 
 import type { AppRouter } from '@/server/routers/_app'
 
 import { CustomSuperJSON } from './superjson.custom'
 
-function getBaseUrl() {
-  if (typeof window !== 'undefined')
-    // browser should use relative path
-    return ''
+export type ReactQueryOptions = inferReactQueryProcedureOptions<AppRouter>
+export type RouterInputs = inferRouterInputs<AppRouter>
+export type RouterOutputs = inferRouterOutputs<AppRouter>
 
-  if (process.env.VERCEL_URL)
-    // reference for vercel.com
-    return `https://${process.env.VERCEL_URL}`
+export const trpc = createTRPCReact<AppRouter>()
 
-  if (process.env.RENDER_INTERNAL_HOSTNAME)
-    // reference for render.com
-    return `http://${process.env.RENDER_INTERNAL_HOSTNAME}:${process.env.PORT}`
+export const trpcClient = trpc.createClient({
+  links: [
+    loggerLink({
+      enabled() {
+        // return process.env.NODE_ENV === 'development' &&
+        //   typeof window !== 'undefined') ||
+        // (opts.direction === 'down' && opts.result instanceof Error),
+        // return process.env.NODE_ENV === 'development';
+        return true
+      },
+    }),
+    splitLink({
+      condition(op) {
+        return op.type !== 'subscription'
+      },
+      true: httpBatchLink({
+        url: `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/trpc`,
+        transformer: CustomSuperJSON,
 
-  // assume localhost
-  return `http://localhost:${process.env.PORT ?? 3000}`
-}
-
-export const trpc = createTRPCNext<AppRouter>()
-// export const trpc = createTRPCNext<AppRouter>({
-//   config(opts) {
-//     return {
-//       // transformer: CustomSuperJSON,
-//       links: [
-//         httpBatchLink({
-//           transformer: CustomSuperJSON,
-//           url: `${getBaseUrl()}/api/trpc`,
-//           async headers() {
-//             return {
-//               // authorization: getAuthCookie(),
-//             };
-//           },
-//         }),
-//       ],
-//     };
-//   },
-//   ssr: false,
-// });
+        // When sending batch requests, sometimes the URL can become too large causing HTTP errors like
+        // maxURLLength: 2083, // a suitable size
+        // alternatively, you can make all RPC-calls to be called with POST
+        // methodOverride: 'POST',
+      }),
+      false: wsLink({
+        client: createWSClient({
+          url: `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/trpc`,
+        }),
+        transformer: CustomSuperJSON,
+      }),
+    }),
+  ],
+})

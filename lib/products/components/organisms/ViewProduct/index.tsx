@@ -1,18 +1,34 @@
-import formatCurrency from "@/core/helpers/format/currency";
-import Product from "@/products/entities/Product";
-import Image from "next/image";
+import Image from 'next/image'
 
-export default function ViewProduct({ name, image, description, price, tags, ingredients, allergens }: Readonly<Product>) {
+import formatCurrency from '@/core/helpers/format/currency'
+import Product from '@/products/entities/Product'
+
+export default function ViewProduct({
+  name,
+  image,
+  description,
+  price,
+  tags,
+  ingredients,
+  allergens,
+}: Readonly<Product>) {
   return (
-    <div className="flex flex-col gap-4 p-2 items-center mt-4">
-      <div className="flex flex-col md:flex-row gap-4 max-w-screen-md w-full">
+    <div className="mt-4 flex flex-col items-center gap-4 p-2">
+      <div className="flex w-full max-w-screen-md flex-col gap-4 md:flex-row">
         {image && (
-          <Image alt={name} src={image} width={228} height={128} className="rounded-md w-full aspect-[114/64] object-cover" priority />
+          <Image
+            alt={name}
+            src={image}
+            width={228}
+            height={128}
+            className="aspect-[114/64] w-full rounded-md object-cover"
+            priority
+          />
         )}
-        <div className="flex flex-col w-full">
-          <h1 className="text-2xl font-light text-primary-300 tracking-tight mb-2">{name}</h1>
-          <p className="text-primary text-base font-light">{tags.map(tag => tag).join(" | ")}</p>
-          <p className="text-secondary-200 text-3xl font-normal mt-2 mb-4">{formatCurrency(price)}</p>
+        <div className="flex w-full flex-col">
+          <h1 className="mb-2 text-2xl font-light tracking-tight text-primary-300">{name}</h1>
+          <p className="text-base font-light text-primary">{tags.map(tag => tag).join(' | ')}</p>
+          <p className="mb-4 mt-2 text-3xl font-normal text-secondary-200">{formatCurrency(price)}</p>
           {/* <button className="border border-black mt-auto">Add to cart</button> */}
 
           {description && (
@@ -37,8 +53,6 @@ export default function ViewProduct({ name, image, description, price, tags, ing
           )}
         </div>
       </div>
-
-
     </div>
-  );
+  )
 }

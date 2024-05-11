@@ -1,6 +1,7 @@
-import yup from "@/core/utils/yup";
-import { productTags } from "./ProductTag";
-import { productCategories } from "./ProductCategory";
+import yup from '@/core/utils/yup'
+
+import { productCategories } from './ProductCategory'
+import { productTags } from './ProductTag'
 
 export const productSchema = yup.object().shape({
   id: yup.string().required(),
@@ -11,8 +12,8 @@ export const productSchema = yup.object().shape({
   category: yup.string().oneOf(productCategories).defined(),
   ingredients: yup.string().required(),
   allergens: yup.string().required(),
-  tags: yup.array().of(yup.string().oneOf(productTags).defined()).required()
-});
+  tags: yup.array().of(yup.string().oneOf(productTags).defined()).required(),
+})
 
-type Product = yup.InferType<typeof productSchema>;
-export default Product;
+type Product = yup.InferType<typeof productSchema>
+export default Product

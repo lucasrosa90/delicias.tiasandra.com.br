@@ -1,6 +1,7 @@
 // /app/api/routers/allergen.ts
-import { t } from '../trpc'
 import { z } from 'zod'
+
+import { t } from '../trpc'
 
 const AllergenProductInput = z.object({
   productId: z.string(),
@@ -8,18 +9,20 @@ const AllergenProductInput = z.object({
 })
 
 export const allergensRouter = t.router({
-  addAllergenToProduct: t.procedure.input(AllergenProductInput).mutation(async ({ ctx, input }) => {
-    return await ctx.prisma.productAllergen.create({
-      data: input,
-    })
-  }),
+  addAllergenToProduct: t.procedure.input(AllergenProductInput).mutation(
+    async ({ ctx, input }) =>
+      await ctx.prisma.productAllergen.create({
+        data: input,
+      }),
+  ),
 
-  removeAllergenFromProduct: t.procedure.input(AllergenProductInput).mutation(async ({ ctx, input }) => {
-    return await ctx.prisma.productAllergen.deleteMany({
-      where: {
-        productId: input.productId,
-        allergenId: input.allergenId,
-      },
-    })
-  }),
+  removeAllergenFromProduct: t.procedure.input(AllergenProductInput).mutation(
+    async ({ ctx, input }) =>
+      await ctx.prisma.productAllergen.deleteMany({
+        where: {
+          productId: input.productId,
+          allergenId: input.allergenId,
+        },
+      }),
+  ),
 })
