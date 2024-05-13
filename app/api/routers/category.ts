@@ -1,70 +1,102 @@
-// /app/api/routers/category.ts
 import { z } from 'zod'
 
-import { t } from '../trpc'
+import { router, procedure } from '../trpc'
 
-const CategoryInput = z.object({
-  name: z.string(),
-})
-
-const CategoryOutput = z.object({
-  id: z.string(),
-  name: z.string(),
-})
-
-export const categoryRouter = t.router({
-  getAll: t.procedure
-    .query(
-      async ({ ctx }) =>
-        await ctx.prisma.category.findMany({
-          where: { deletedAt: null },
-          select: { id: true, name: true },
-        }),
-    )
-    .output(z.array(CategoryOutput)),
-
-  get: t.procedure
+export const categoryRouter = router({
+  get: procedure
     .input(z.string())
-    .query(
-      async ({ ctx, input }) =>
-        await ctx.prisma.category.findUnique({
-          where: { id: input, deletedAt: null },
-          select: { id: true, name: true },
-        }),
+    .output(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        createdAt: z.date(),
+        updatedAt: z.date(),
+        deletedAt: z.date().nullable(),
+      }),
     )
-    .output(CategoryOutput.nullable()),
+    .query(({ ctx, input }) =>
+      ctx.prisma.category.findUniqueOrThrow({
+        where: { id: input, deletedAt: null },
+      }),
+    ),
 
-  create: t.procedure
-    .input(CategoryInput)
-    .mutation(
-      async ({ ctx, input }) =>
-        await ctx.prisma.category.create({
-          data: input,
-          select: { id: true, name: true },
+  getAll: procedure
+    .output(
+      z.array(
+        z.object({
+          id: z.string(),
+          name: z.string(),
+          createdAt: z.date(),
+          updatedAt: z.date(),
+          deletedAt: z.date().nullable(),
         }),
+      ),
     )
-    .output(CategoryOutput),
+    .query(({ ctx }) =>
+      ctx.prisma.category.findMany({
+        where: { deletedAt: null },
+      }),
+    ),
 
-  update: t.procedure
-    .input(CategoryInput.extend({ id: z.string() }))
-    .mutation(
-      async ({ ctx, input }) =>
-        await ctx.prisma.category.update({
-          where: { id: input.id, deletedAt: null },
-          data: { name: input.name },
-          select: { id: true, name: true },
-        }),
+  create: procedure
+    .input(
+      z.object({
+        name: z.string().min(1),
+      }),
     )
-    .output(CategoryOutput),
+    .output(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        createdAt: z.date(),
+        updatedAt: z.date(),
+        deletedAt: z.date().nullable(),
+      }),
+    )
+    .mutation(({ ctx, input }) =>
+      ctx.prisma.category.create({
+        data: input,
+      }),
+    ),
 
-  delete: t.procedure
+  update: procedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string().min(1).optional(),
+      }),
+    )
+    .output(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        createdAt: z.date(),
+        updatedAt: z.date(),
+        deletedAt: z.date().nullable(),
+      }),
+    )
+    .mutation(({ ctx, input }) =>
+      ctx.prisma.category.update({
+        where: { id: input.id },
+        data: input,
+      }),
+    ),
+
+  delete: procedure
     .input(z.string())
-    .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.category.update({
+    .output(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        createdAt: z.date(),
+        updatedAt: z.date(),
+        deletedAt: z.date().nullable(),
+      }),
+    )
+    .mutation(({ ctx, input }) =>
+      ctx.prisma.category.update({
         where: { id: input },
         data: { deletedAt: new Date() },
-      })
-      return { id: input }
-    })
-    .output(z.object({ id: z.string() })),
+      }),
+    ),
 })

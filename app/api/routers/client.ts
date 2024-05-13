@@ -1,70 +1,68 @@
-// /app/api/routers/client.ts
 import { z } from 'zod'
 
-import { t } from '../trpc'
+import { router, procedure } from '../trpc'
 
-const ClientInput = z.object({
-  name: z.string(),
-})
-
-const ClientOutput = z.object({
+const clientSchema = z.object({
   id: z.string(),
   name: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  deletedAt: z.date().nullable(),
 })
 
-export const clientRouter = t.router({
-  getAll: t.procedure
-    .query(
-      async ({ ctx }) =>
-        await ctx.prisma.client.findMany({
-          where: { deletedAt: null },
-          select: { id: true, name: true },
-        }),
-    )
-    .output(z.array(ClientOutput)),
-
-  get: t.procedure
+export const clientRouter = router({
+  get: procedure
     .input(z.string())
-    .query(
-      async ({ ctx, input }) =>
-        await ctx.prisma.client.findUnique({
-          where: { id: input, deletedAt: null },
-          select: { id: true, name: true },
-        }),
-    )
-    .output(ClientOutput.nullable()),
+    .output(clientSchema)
+    .query(({ ctx, input }) =>
+      ctx.prisma.client.findUniqueOrThrow({
+        where: { id: input, deletedAt: null },
+      }),
+    ),
 
-  create: t.procedure
-    .input(ClientInput)
-    .mutation(
-      async ({ ctx, input }) =>
-        await ctx.prisma.client.create({
-          data: input,
-          select: { id: true, name: true },
-        }),
-    )
-    .output(ClientOutput),
+  getAll: procedure.output(z.array(clientSchema)).query(({ ctx }) =>
+    ctx.prisma.client.findMany({
+      where: { deletedAt: null },
+    }),
+  ),
 
-  update: t.procedure
-    .input(ClientInput.extend({ id: z.string() }))
-    .mutation(
-      async ({ ctx, input }) =>
-        await ctx.prisma.client.update({
-          where: { id: input.id, deletedAt: null },
-          data: { name: input.name },
-          select: { id: true, name: true },
-        }),
+  create: procedure
+    .input(
+      z.object({
+        name: z.string().min(1),
+        email: z.string().email(),
+      }),
     )
-    .output(ClientOutput),
+    .output(clientSchema)
+    .mutation(({ ctx, input }) =>
+      ctx.prisma.client.create({
+        data: input,
+      }),
+    ),
 
-  delete: t.procedure
+  update: procedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string().min(1).optional(),
+        email: z.string().email().optional(),
+      }),
+    )
+    .output(clientSchema)
+    .mutation(({ ctx, input }) =>
+      ctx.prisma.client.update({
+        where: { id: input.id },
+        data: input,
+      }),
+    ),
+
+  delete: procedure
     .input(z.string())
-    .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.client.update({
+    .output(clientSchema)
+    .mutation(({ ctx, input }) =>
+      ctx.prisma.client.update({
         where: { id: input },
         data: { deletedAt: new Date() },
-      })
-      return { id: input }
-    })
-    .output(z.object({ id: z.string() })),
+      }),
+    ),
 })

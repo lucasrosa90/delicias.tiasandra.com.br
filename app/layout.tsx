@@ -4,6 +4,8 @@ import { Oswald } from 'next/font/google'
 import './globals.css'
 import MainLayout from '@/core/components/species/MainLayout'
 
+import Providers from './providers'
+
 const oswald = Oswald({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -35,8 +37,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${oswald.className} [&:has(#backdrop)]:overflow-hidden`}>
-        <MainLayout>{children}</MainLayout>
-        {modal}
+        <Providers>
+          <MainLayout>{children}</MainLayout>
+          {modal}
+        </Providers>
       </body>
     </html>
   )

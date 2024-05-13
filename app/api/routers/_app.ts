@@ -1,7 +1,6 @@
-// /app/api/routers/_app.ts
 import { router } from '../trpc'
 
-import { allergensRouter } from './allergens'
+import { allergenRouter } from './allergen'
 import { categoryRouter } from './category'
 import { clientRouter } from './client'
 import { clientAddressRouter } from './clientAddress'
@@ -9,9 +8,12 @@ import { clientContactRouter } from './clientContact'
 import { productRouter } from './product'
 import { productionRouter } from './production'
 import { saleRouter } from './sale'
+import { saleDetailRouter } from './saleDetail'
+import { saleHistoryRouter } from './saleHistory'
+import { tagRouter } from './tag'
 
 export const appRouter = router({
-  allergens: allergensRouter,
+  allergen: allergenRouter,
   category: categoryRouter,
   client: clientRouter,
   clientAddress: clientAddressRouter,
@@ -19,6 +21,9 @@ export const appRouter = router({
   product: productRouter,
   production: productionRouter,
   sale: saleRouter,
+  saleDetail: saleDetailRouter,
+  saleHistory: saleHistoryRouter,
+  tag: tagRouter,
 })
 
 export type AppRouter = typeof appRouter

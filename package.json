@@ -7,13 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky"
+    "prepare": "husky",
+    "prisma:migrate:reset": "prisma migrate reset",
+    "prisma:migrate": "prisma migrate dev --preview-feature --skip-seed",
+    "prisma:generate": "prisma migrate"
   },
   "prisma": {
-    "schema": "schema.prisma",
-    "seed": "./utils/run-dev-file src/lib/prisma/seed.ts"
+    "schema": "./prisma/schema.prisma",
+    "seed": "tsx ./prisma/seed.ts"
   },
   "lint-staged": {
+    "**/*.{ts,tsx}": "tsc-files --noEmit --pretty",
     "**/*.{js,ts,jsx,tsx}": [
       "eslint --fix",
       "prettier --write -u"
@@ -36,6 +40,7 @@
     "zod": "3.23.8"
   },
   "devDependencies": {
+    "@faker-js/faker": "8.4.1",
     "@tanstack/eslint-plugin-query": "5.32.1",
     "@types/node": "^20",
     "@types/react": "^18",
@@ -54,6 +59,8 @@
     "prisma": "5.13.0",
     "prisma-dbml-generator": "0.12.0",
     "tailwindcss": "^3.3.0",
+    "tsc-files": "1.1.4",
+    "tsx": "4.10.1",
     "typescript": "^5"
   }
 }

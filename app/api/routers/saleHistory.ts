@@ -2,28 +2,27 @@ import { z } from 'zod'
 
 import { router, procedure } from '../trpc'
 
-const clientContactSchema = z.object({
+const saleHistorySchema = z.object({
   id: z.string(),
-  clientId: z.string(),
-  contactType: z.string(),
-  contactValue: z.string(),
+  saleId: z.string(),
+  status: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
   deletedAt: z.date().nullable(),
 })
 
-export const clientContactRouter = router({
+export const saleHistoryRouter = router({
   get: procedure
     .input(z.string())
-    .output(clientContactSchema)
+    .output(saleHistorySchema)
     .query(({ ctx, input }) =>
-      ctx.prisma.clientContact.findUniqueOrThrow({
+      ctx.prisma.saleHistory.findUniqueOrThrow({
         where: { id: input, deletedAt: null },
       }),
     ),
 
-  getAll: procedure.output(z.array(clientContactSchema)).query(({ ctx }) =>
-    ctx.prisma.clientContact.findMany({
+  getAll: procedure.output(z.array(saleHistorySchema)).query(({ ctx }) =>
+    ctx.prisma.saleHistory.findMany({
       where: { deletedAt: null },
     }),
   ),
@@ -31,14 +30,14 @@ export const clientContactRouter = router({
   create: procedure
     .input(
       z.object({
-        clientId: z.string(),
-        contactType: z.string().min(1),
-        contactValue: z.string().min(1),
+        saleId: z.string(),
+        status: z.string().min(1),
+        timestamp: z.date(),
       }),
     )
-    .output(clientContactSchema)
+    .output(saleHistorySchema)
     .mutation(({ ctx, input }) =>
-      ctx.prisma.clientContact.create({
+      ctx.prisma.saleHistory.create({
         data: input,
       }),
     ),
@@ -47,14 +46,14 @@ export const clientContactRouter = router({
     .input(
       z.object({
         id: z.string(),
-        clientId: z.string().optional(),
-        type: z.string().min(1).optional(),
-        value: z.string().min(1).optional(),
+        saleId: z.string().optional(),
+        status: z.string().min(1).optional(),
+        timestamp: z.date().optional(),
       }),
     )
-    .output(clientContactSchema)
+    .output(saleHistorySchema)
     .mutation(({ ctx, input }) =>
-      ctx.prisma.clientContact.update({
+      ctx.prisma.saleHistory.update({
         where: { id: input.id },
         data: input,
       }),
@@ -62,9 +61,9 @@ export const clientContactRouter = router({
 
   delete: procedure
     .input(z.string())
-    .output(clientContactSchema)
+    .output(saleHistorySchema)
     .mutation(({ ctx, input }) =>
-      ctx.prisma.clientContact.update({
+      ctx.prisma.saleHistory.update({
         where: { id: input },
         data: { deletedAt: new Date() },
       }),

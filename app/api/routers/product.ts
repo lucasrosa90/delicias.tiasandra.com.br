@@ -1,117 +1,82 @@
-// /app/api/routers/product.ts
 import { z } from 'zod'
 
-import { t } from '../trpc'
+import { router, procedure } from '../trpc'
 
-const ProductInput = z.object({
-  name: z.string(),
-  price: z.number(),
-  categoryId: z.string(),
-})
-
-const ProductOutput = z.object({
+const productSchema = z.object({
   id: z.string(),
   name: z.string(),
-  price: z.number(),
+  description: z.string(),
+  ingredients: z.string(),
+  image: z.string().nullable(),
+  price: z.string().min(1), // check string as number, probably Decimal
   categoryId: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  deletedAt: z.date().nullable(),
 })
 
-const ProductTagInput = z.object({
-  productId: z.string(),
-  tagId: z.string(),
-})
-
-export const productRouter = t.router({
-  getAll: t.procedure
-    .query(
-      async ({ ctx }) =>
-        await ctx.prisma.product.findMany({
-          where: { deletedAt: null },
-          select: { id: true, name: true, price: true, categoryId: true },
-        }),
-    )
-    .output(z.array(ProductOutput)),
-
-  get: t.procedure
+export const productRouter = router({
+  get: procedure
     .input(z.string())
-    .query(
-      async ({ ctx, input }) =>
-        await ctx.prisma.product.findUnique({
-          where: { id: input, deletedAt: null },
-          select: { id: true, name: true, price: true, categoryId: true },
-        }),
-    )
-    .output(ProductOutput.nullable()),
+    .output(productSchema)
+    .query(({ ctx, input }) =>
+      ctx.prisma.product.findUniqueOrThrow({
+        where: { id: input, deletedAt: null },
+      }),
+    ),
 
-  create: t.procedure
-    .input(ProductInput)
-    .mutation(
-      async ({ ctx, input }) =>
-        await ctx.prisma.product.create({
-          data: input,
-          select: { id: true, name: true, price: true, categoryId: true },
-        }),
-    )
-    .output(ProductOutput),
+  getAll: procedure.output(z.array(productSchema)).query(({ ctx }) =>
+    ctx.prisma.product.findMany({
+      where: { deletedAt: null },
+      include: { category: true }, // Include related category data
+    }),
+  ),
 
-  update: t.procedure
-    .input(ProductInput.extend({ id: z.string() }))
-    .mutation(
-      async ({ ctx, input }) =>
-        await ctx.prisma.product.update({
-          where: { id: input.id, deletedAt: null },
-          data: input,
-          select: { id: true, name: true, price: true, categoryId: true },
-        }),
+  create: procedure
+    .input(
+      z.object({
+        name: z.string().min(1),
+        description: z.string(),
+        ingredients: z.string(),
+        image: z.string().optional(),
+        price: z.string().min(1), // check string as number, probably Decimal
+        categoryId: z.string(),
+      }),
     )
-    .output(ProductOutput),
+    .output(productSchema)
+    .mutation(({ ctx, input }) =>
+      ctx.prisma.product.create({
+        data: input,
+      }),
+    ),
 
-  delete: t.procedure
+  update: procedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string().min(1).optional(),
+        description: z.string().optional(),
+        ingredients: z.string().optional(),
+        image: z.string().optional(),
+        price: z.string().min(1).optional(), // check string as number, probably Decimal
+        categoryId: z.string().optional(),
+      }),
+    )
+    .output(productSchema)
+    .mutation(({ ctx, input }) =>
+      ctx.prisma.product.update({
+        where: { id: input.id },
+        data: input,
+      }),
+    ),
+
+  delete: procedure
     .input(z.string())
-    .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.product.update({
+    .output(productSchema)
+    .mutation(({ ctx, input }) =>
+      ctx.prisma.product.update({
         where: { id: input },
         data: { deletedAt: new Date() },
-      })
-      return { id: input }
-    })
-    .output(z.object({ id: z.string() })),
-
-  // Endpoint to add a tag to a product
-  addTagToProduct: t.procedure.input(ProductTagInput).mutation(async ({ ctx, input }) => {
-    const { productId, tagId } = input
-    // Assuming you have a join table named `ProductTag`
-    return await ctx.prisma.productTag.create({
-      data: {
-        productId,
-        tagId,
-      },
-      select: {
-        product: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        tag: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    })
-  }),
-
-  // Endpoint to remove a tag from a product
-  removeTagFromProduct: t.procedure.input(ProductTagInput).mutation(async ({ ctx, input }) => {
-    const { productId, tagId } = input
-    // Assuming you have a join table named `ProductTag`
-    return await ctx.prisma.productTag.deleteMany({
-      where: {
-        productId,
-        tagId,
-      },
-    })
-  }),
+      }),
+    ),
 })

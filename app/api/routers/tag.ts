@@ -2,28 +2,26 @@ import { z } from 'zod'
 
 import { router, procedure } from '../trpc'
 
-const clientContactSchema = z.object({
+const tagSchema = z.object({
   id: z.string(),
-  clientId: z.string(),
-  contactType: z.string(),
-  contactValue: z.string(),
+  name: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
   deletedAt: z.date().nullable(),
 })
 
-export const clientContactRouter = router({
+export const tagRouter = router({
   get: procedure
     .input(z.string())
-    .output(clientContactSchema)
+    .output(tagSchema)
     .query(({ ctx, input }) =>
-      ctx.prisma.clientContact.findUniqueOrThrow({
+      ctx.prisma.tag.findUniqueOrThrow({
         where: { id: input, deletedAt: null },
       }),
     ),
 
-  getAll: procedure.output(z.array(clientContactSchema)).query(({ ctx }) =>
-    ctx.prisma.clientContact.findMany({
+  getAll: procedure.output(z.array(tagSchema)).query(({ ctx }) =>
+    ctx.prisma.tag.findMany({
       where: { deletedAt: null },
     }),
   ),
@@ -31,14 +29,12 @@ export const clientContactRouter = router({
   create: procedure
     .input(
       z.object({
-        clientId: z.string(),
-        contactType: z.string().min(1),
-        contactValue: z.string().min(1),
+        name: z.string().min(1),
       }),
     )
-    .output(clientContactSchema)
+    .output(tagSchema)
     .mutation(({ ctx, input }) =>
-      ctx.prisma.clientContact.create({
+      ctx.prisma.tag.create({
         data: input,
       }),
     ),
@@ -47,14 +43,12 @@ export const clientContactRouter = router({
     .input(
       z.object({
         id: z.string(),
-        clientId: z.string().optional(),
-        type: z.string().min(1).optional(),
-        value: z.string().min(1).optional(),
+        name: z.string().min(1).optional(),
       }),
     )
-    .output(clientContactSchema)
+    .output(tagSchema)
     .mutation(({ ctx, input }) =>
-      ctx.prisma.clientContact.update({
+      ctx.prisma.tag.update({
         where: { id: input.id },
         data: input,
       }),
@@ -62,9 +56,9 @@ export const clientContactRouter = router({
 
   delete: procedure
     .input(z.string())
-    .output(clientContactSchema)
+    .output(tagSchema)
     .mutation(({ ctx, input }) =>
-      ctx.prisma.clientContact.update({
+      ctx.prisma.tag.update({
         where: { id: input },
         data: { deletedAt: new Date() },
       }),
