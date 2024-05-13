@@ -2,65 +2,134 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary-rgb: 33 112 58;
-  --secondary-rgb: 248 187 33;
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
 
-  --text-rgb: var(--primary-rgb);
-  --background-rgb: 255 255 255;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
 
-  /* Utils */
-  --black-rgb: 0 0 0;
-  --black: rgb(var(--black-rgb));
-  --white-rgb: 255 255 255;
-  --white: rgb(var(--white-rgb));
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
 
-  /* Tint/Shade */
-  --primary-tint-1: #377e4e;
-  --primary-tint-2: #4d8d61;
-  --primary-tint-3: #649b75;
-  --primary-tint-4: #7aa989;
-  --primary-tint-5: #90b89d;
-  --primary-tint-6: #a6c6b0;
-  --primary-tint-7: #bcd4c4;
-  --primary-tint-8: #d3e2d8;
-  --primary-tint-9: #e9f1eb;
-  --primary-shade-1: #1e6534;
-  --primary-shade-2: #1a5a2e;
-  --primary-shade-3: #174e29;
-  --primary-shade-4: #144323;
-  --primary-shade-5: #11381d;
-  --primary-shade-6: #0d2d17;
-  --primary-shade-7: #0a2211;
-  --primary-shade-8: #07160c;
-  --primary-shade-9: #030b06;
+    --primary: 262.1 83.3% 57.8%;
+    --primary-foreground: 210 20% 98%;
 
-  --secondary-tint-1: #f9c237;
-  --secondary-tint-2: #f9c94d;
-  --secondary-tint-3: #facf64;
-  --secondary-tint-4: #fbd67a;
-  --secondary-tint-5: #fcdd90;
-  --secondary-tint-6: #fce4a6;
-  --secondary-tint-7: #fdebbc;
-  --secondary-tint-8: #fef1d3;
-  --secondary-tint-9: #fef8e9;
-  --secondary-shade-1: #dfa81e;
-  --secondary-shade-2: #c6961a;
-  --secondary-shade-3: #ae8317;
-  --secondary-shade-4: #957014;
-  --secondary-shade-5: #7c5e11;
-  --secondary-shade-6: #634b0d;
-  --secondary-shade-7: #4a380a;
-  --secondary-shade-8: #322507;
-  --secondary-shade-9: #191303;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 262.1 83.3% 57.8%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+
+    --primary: 263.4 70% 50.4%;
+    --primary-foreground: 210 20% 98%;
+
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 263.4 70% 50.4%;
+  }
+
+  .website {
+    --primary-rgb: 33 112 58;
+    --secondary-rgb: 248 187 33;
+
+    --text-rgb: var(--primary-rgb);
+    --background-rgb: 255 255 255;
+
+    --black-rgb: 0 0 0;
+    --black: rgb(var(--black-rgb));
+    --white-rgb: 255 255 255;
+    --white: rgb(var(--white-rgb));
+
+    --primary-tint-1: #377e4e;
+    --primary-tint-2: #4d8d61;
+    --primary-tint-3: #649b75;
+    --primary-tint-4: #7aa989;
+    --primary-tint-5: #90b89d;
+    --primary-tint-6: #a6c6b0;
+    --primary-tint-7: #bcd4c4;
+    --primary-tint-8: #d3e2d8;
+    --primary-tint-9: #e9f1eb;
+    --primary-shade-1: #1e6534;
+    --primary-shade-2: #1a5a2e;
+    --primary-shade-3: #174e29;
+    --primary-shade-4: #144323;
+    --primary-shade-5: #11381d;
+    --primary-shade-6: #0d2d17;
+    --primary-shade-7: #0a2211;
+    --primary-shade-8: #07160c;
+    --primary-shade-9: #030b06;
+
+    --secondary-tint-1: #f9c237;
+    --secondary-tint-2: #f9c94d;
+    --secondary-tint-3: #facf64;
+    --secondary-tint-4: #fbd67a;
+    --secondary-tint-5: #fcdd90;
+    --secondary-tint-6: #fce4a6;
+    --secondary-tint-7: #fdebbc;
+    --secondary-tint-8: #fef1d3;
+    --secondary-tint-9: #fef8e9;
+    --secondary-shade-1: #dfa81e;
+    --secondary-shade-2: #c6961a;
+    --secondary-shade-3: #ae8317;
+    --secondary-shade-4: #957014;
+    --secondary-shade-5: #7c5e11;
+    --secondary-shade-6: #634b0d;
+    --secondary-shade-7: #4a380a;
+    --secondary-shade-8: #322507;
+    --secondary-shade-9: #191303;
+  }
 }
 
 @layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Custom */
   html {
     -webkit-tap-highlight-color: transparent;
   }
 
-  body {
+  .website {
     color: rgb(var(--text-rgb));
     background: rgb(var(--background-rgb));
     max-width: 100vw;

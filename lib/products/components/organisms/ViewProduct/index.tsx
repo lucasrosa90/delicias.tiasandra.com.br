@@ -26,29 +26,29 @@ export default function ViewProduct({
           />
         )}
         <div className="flex w-full flex-col">
-          <h1 className="mb-2 text-2xl font-light tracking-tight text-primary-300">{name}</h1>
+          <h1 className="text-primary-300 mb-2 text-2xl font-light tracking-tight">{name}</h1>
           <p className="text-base font-light text-primary">{tags.map(tag => tag).join(' | ')}</p>
-          <p className="mb-4 mt-2 text-3xl font-normal text-secondary-200">{formatCurrency(price)}</p>
+          <p className="text-secondary-200 mb-4 mt-2 text-3xl font-normal">{formatCurrency(price)}</p>
           {/* <button className="border border-black mt-auto">Add to cart</button> */}
 
           {description && (
             <div className="mt-2">
               <h2 className="text-lg font-normal underline">Descrição</h2>
-              <p className="font-light tracking-wider text-primary-200">{description}</p>
+              <p className="text-primary-200 font-light tracking-wider">{description}</p>
             </div>
           )}
 
           {allergens && (
             <div className="mt-2">
               <h2 className="text-lg font-normal underline">Alérgicos</h2>
-              <p className="font-light tracking-wider text-primary-200">{allergens}</p>
+              <p className="text-primary-200 font-light tracking-wider">{allergens}</p>
             </div>
           )}
 
           {ingredients && (
             <div className="mt-2">
               <h2 className="text-lg font-normal underline">Ingredientes</h2>
-              <p className="font-light tracking-wider text-primary-200">{ingredients}</p>
+              <p className="text-primary-200 font-light tracking-wider">{ingredients}</p>
             </div>
           )}
         </div>

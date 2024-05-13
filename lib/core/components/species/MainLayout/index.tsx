@@ -1,4 +1,9 @@
+import { Oswald } from 'next/font/google'
 import Link from 'next/link'
+
+import cn from '@/utils/cn'
+
+const oswald = Oswald({ subsets: ['latin'] })
 
 type Props = {
   children: React.ReactNode
@@ -6,12 +11,16 @@ type Props = {
 
 export default function MainLayout({ children }: Readonly<Props>) {
   return (
-    <main className="pb-safe mx-auto grid h-full min-h-screen max-w-screen-xl grid-rows-[min-content,auto]">
+    <main
+      className={cn(
+        'pb-safe mx-auto grid h-full min-h-screen max-w-screen-xl grid-rows-[min-content,auto]',
+        oswald.className,
+        'website',
+      )}>
       <div className="flex h-12 w-full items-center justify-center pl-4">
         <Link
           href="/"
-          className="text-2xl font-semibold tracking-tighter"
-        >
+          className="text-2xl font-semibold tracking-tighter">
           Delícias da Tia Sandra
         </Link>
       </div>

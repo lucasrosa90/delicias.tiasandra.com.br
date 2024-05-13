@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use client'
 
 import Link from 'next/link'
@@ -40,8 +41,7 @@ export default function ListProductsCategories({ categories, selected }: Readonl
                 'flex flex-col px-2 items-center gap-2 max-w-20 w-full h-full justify-center',
                 'hover:drop-shadow-sm transition hover:text-primary-30',
                 selected === slug ? 'text-primary' : 'text-black hover:scale-105',
-              ].join(' ')}
-            >
+              ].join(' ')}>
               <div className="size-9">
                 <Icon />
               </div>

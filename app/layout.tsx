@@ -1,12 +1,8 @@
 import type { Metadata, Viewport } from 'next'
-import { Oswald } from 'next/font/google'
 
 import './globals.css'
-import MainLayout from '@/core/components/species/MainLayout'
 
 import Providers from './providers'
-
-const oswald = Oswald({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
@@ -30,17 +26,11 @@ export const viewport: Viewport = {
   themeColor: '#ffffff', // '#f8bb21'
 }
 
-export default function RootLayout({
-  children,
-  modal,
-}: Readonly<{ children: React.ReactNode; modal: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; modal: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${oswald.className} [&:has(#backdrop)]:overflow-hidden`}>
-        <Providers>
-          <MainLayout>{children}</MainLayout>
-          {modal}
-        </Providers>
+      <body className="[&:has(#backdrop)]:overflow-hidden">
+        <Providers>{children}</Providers>
       </body>
     </html>
   )

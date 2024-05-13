@@ -10,6 +10,7 @@ import {
 import { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 
 import type { AppRouter } from '@/server/routers/_app'
+import getBaseUrl from '@/server/utils/getBaseUrl'
 
 import { CustomSuperJSON } from './superjson.custom'
 
@@ -35,7 +36,7 @@ export const trpcClient = trpc.createClient({
         return op.type !== 'subscription'
       },
       true: httpBatchLink({
-        url: `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/trpc`,
+        url: `${getBaseUrl()}/api/trpc`,
         transformer: CustomSuperJSON,
 
         // When sending batch requests, sometimes the URL can become too large causing HTTP errors like
@@ -45,7 +46,7 @@ export const trpcClient = trpc.createClient({
       }),
       false: wsLink({
         client: createWSClient({
-          url: `${process.env.NEXT_PUBLIC_NESTJS_SERVER}/trpc`,
+          url: `${getBaseUrl()}/api/trpc`,
         }),
         transformer: CustomSuperJSON,
       }),

@@ -10,8 +10,7 @@ export default function ListProductItem({ id, category, image, price, tags, name
     <Link
       href={`/produtos/${slugify(category)}/${id}`}
       className={`group flex w-full flex-col justify-center gap-2 rounded-md border
-      border-black/5 bg-white p-4 transition hover:bg-black/5 hover:shadow-sm`}
-    >
+      border-black/5 bg-white p-4 transition hover:bg-black/5 hover:shadow-sm`}>
       {image && (
         <div className="h-full">
           <Image
@@ -25,9 +24,9 @@ export default function ListProductItem({ id, category, image, price, tags, name
         </div>
       )}
       <div className="flex w-full flex-col items-start">
-        <h3 className="text-lg font-light tracking-wide text-primary-300">{name}</h3>
+        <h3 className="text-primary-300 text-lg font-light tracking-wide">{name}</h3>
         <p className="text-xs text-primary">{tags.map(tag => tag).join(' | ')}</p>
-        <p className="mt-auto text-2xl font-normal tracking-wide text-secondary-200">{formatCurrency(price)}</p>
+        <p className="text-secondary-200 mt-auto text-2xl font-normal tracking-wide">{formatCurrency(price)}</p>
       </div>
     </Link>
   )

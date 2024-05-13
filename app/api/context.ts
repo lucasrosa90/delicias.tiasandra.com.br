@@ -1,13 +1,9 @@
-import { CreateNextContextOptions } from '@trpc/server/adapters/next'
-
 import prisma from './prisma'
 
-export async function createContext({ req, res }: CreateNextContextOptions) {
-  return {
-    req,
-    res,
-    prisma,
-  }
+type Options = { req: Request; res: Response }
+
+export function createContext(opts?: Options) {
+  return { ...opts, prisma }
 }
 
 export type Context = typeof createContext
