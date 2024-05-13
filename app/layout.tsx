@@ -26,7 +26,7 @@ export const viewport: Viewport = {
   themeColor: '#ffffff', // '#f8bb21'
 }
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; modal: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body className="[&:has(#backdrop)]:overflow-hidden">
