@@ -17,7 +17,7 @@
     "seed": "tsx ./prisma/seed.ts"
   },
   "lint-staged": {
-    "**/*.{ts,tsx}": "tsc --noEmit --pretty",
+    "**/*.{ts,tsx}": "tsc --project tsconfig.json --noEmit --pretty",
     "**/*.{js,ts,jsx,tsx}": [
       "eslint --fix",
       "prettier --write -u"
