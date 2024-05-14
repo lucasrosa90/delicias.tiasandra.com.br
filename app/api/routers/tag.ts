@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 import { router, procedure } from '../trpc'
 
-const tagSchema = z.object({
+export const tagSchema = z.object({
   id: z.string(),
   name: z.string(),
   createdAt: z.date(),

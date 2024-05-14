@@ -5,6 +5,7 @@ import { router, procedure } from '../trpc'
 const productionSchema = z.object({
   id: z.string(),
   productId: z.string(),
+  productionDate: z.date(),
   quantity: z.number(),
   createdAt: z.date(),
   updatedAt: z.date(),
@@ -21,11 +22,15 @@ export const productionRouter = router({
       }),
     ),
 
-  getAll: procedure.output(z.array(productionSchema)).query(({ ctx }) =>
-    ctx.prisma.production.findMany({
-      where: { deletedAt: null },
-    }),
-  ),
+  getAll: procedure
+    .input(z.string())
+    .output(z.array(productionSchema))
+    .query(({ ctx, input }) =>
+      ctx.prisma.production.findMany({
+        where: { productId: input, deletedAt: null },
+        orderBy: { productionDate: 'desc' },
+      }),
+    ),
 
   create: procedure
     .input(

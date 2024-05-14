@@ -1,4 +1,4 @@
-import prisma from './prisma'
+import prisma from '../prisma'
 
 type Options = { req: Request; res: Response }
 

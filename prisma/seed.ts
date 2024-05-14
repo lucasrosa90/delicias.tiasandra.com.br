@@ -1,69 +1,288 @@
 /* eslint-disable complexity */
+/* eslint-disable max-len */
 import { fakerPT_BR as faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
 async function main() {
-  // Create 10 categories
+  // Create categories
   const categories = []
-  for (let i = 0; i < 10; i++) {
+  const createCategories = ['Frango', 'Carne', 'Sopas', 'Porções', 'Bolos']
+  for (let i = 0; i < createCategories.length; i++) {
     categories.push({
       id: faker.string.uuid(),
-      name: faker.commerce.department(),
-      createdAt: faker.date.past(),
-      updatedAt: faker.date.recent(),
+      name: createCategories[i],
     })
   }
   await prisma.category.createMany({ data: categories })
 
-  // Create 10 allergens
-  const allergens = []
-  for (let i = 0; i < 10; i++) {
-    allergens.push({
-      id: faker.string.uuid(),
-      name: faker.lorem.word(),
-      createdAt: faker.date.past(),
-      updatedAt: faker.date.recent(),
-    })
-  }
-  await prisma.allergen.createMany({ data: allergens })
-
-  // Create 10 tags
+  // Create tags
   const tags = []
-  for (let i = 0; i < 10; i++) {
+  const createTags = ['Sem glúten', 'Sem leite', 'Sem lactose']
+  for (let i = 0; i < createTags.length; i++) {
     tags.push({
       id: faker.string.uuid(),
-      name: faker.lorem.word(),
-      createdAt: faker.date.past(),
-      updatedAt: faker.date.recent(),
+      name: createTags[i],
     })
   }
   await prisma.tag.createMany({ data: tags })
 
-  // Create 10 clients
-  const clients = []
-  for (let i = 0; i < 10; i++) {
-    clients.push({
-      id: faker.string.uuid(),
-      name: faker.person.fullName(),
-      createdAt: faker.date.past(),
-      updatedAt: faker.date.recent(),
-    })
-  }
-  await prisma.client.createMany({ data: clients })
-
-  // Create 10 products with random categories, allergens, and tags
+  // Create products
   const products = []
-  for (let i = 0; i < 10; i++) {
-    const categoryId = categories[faker.number.int({ min: 0, max: 9 })].id
+  const createProducts = [
+    // Frango
+    [
+      'Purê de Mandioca com Picadinho de Frango',
+      'Purê Mandioca (120g) + Picadinho de Frango (180g)',
+      '18.90',
+      categories[0].id,
+      'Peito de frango, mandioca, creme de leite sem lactose, manteiga sem lactose, tomate, cebola, alho, colorau, páprica picante, pimenta preta, sal, azeite oliva e salsinha.',
+      [tags[0].id, tags[2].id],
+    ],
+    [
+      'Purê de Mandioca com Picadinho de Frango e Legumes',
+      'Purê Mandioca (100g) + Picadinho de Frango (150g) + Legumes (50g)',
+      '18.90',
+      categories[0].id,
+      'Peito de frango, mandioca, legumes (cenoura, vagem, brócolis), creme de leite sem lactose, manteiga sem lactose, tomate, cebola, alho, colorau, páprica picante, pimenta preta, sal, azeite oliva e salsinha.',
+      [tags[0].id, tags[2].id],
+    ],
+    [
+      'Purê de Batata Doce com Picadinho de Frango',
+      'Purê Batata doce (120g) + Picadinho de Frango (180g)',
+      '18.90',
+      categories[0].id,
+      'Peito de frango, batata doce, creme de leite sem lactose, manteiga sem lactose, tomate, cebola, alho, colorau, páprica picante, pimenta preta, sal, azeite oliva e salsinha.',
+      [tags[0].id, tags[2].id],
+    ],
+    [
+      'Arroz integral, Feijão, Legumes e Frango',
+      'Arroz integral c/ feijão (120g) + Picadinho de Frango (130g) + Legumes (50g)',
+      '18.90',
+      categories[0].id,
+      'Peito de frango, arroz integral, feijão, legumes (cenoura, vagem, brócolis), tomate, cebola, alho, colorau, páprica picante, sal, pimenta, azeite oliva e salsinha.',
+      [tags[0].id, tags[2].id],
+    ],
+    [
+      'Strogonoff de Frango com Arroz integral',
+      'Arroz integral (120g) + Estrogonofe de frango (180g)',
+      '18.90',
+      categories[0].id,
+      'Peito de frango, arroz integral, tomate, creme de leite sem lactose, cebola, alho, azeite de oliva, pimenta preta e sal.',
+      [tags[0].id, tags[2].id],
+    ],
+    [
+      'Crepioca de Frango',
+      'Crepioca (120g) + Frango desfiado (180g)',
+      '18.90',
+      categories[0].id,
+      'Peito de frango, ovo, tapioca, creme de leite sem lactose, tomate, cebola, alho, páprica picante, sal, pimenta, azeite oliva e salsinha.',
+      [tags[0].id, tags[2].id],
+    ],
+
+    // Carne
+    [
+      'Purê de Mandioquinha com Carne de Panela',
+      'Purê Mandioquinha (120g) + Carne de Panela (180g)',
+      '20.90',
+      categories[1].id,
+      'Acém bovino, mandioquinha (batata baroa), creme de leite sem lactose, manteiga sem lactose, tomate, cebola, alho, colorau, páprica picante, sal, azeite oliva e salsinha',
+      [tags[0].id, tags[2].id],
+    ],
+    [
+      'Purê de Mandioquinha com Carne de Panela e Legumes',
+      'Purê Mandioquinha (100g) + Carne de Panela (150g) + Legumes (50g)',
+      '20.90',
+      categories[1].id,
+      'Acém bovino, mandioquinha (batata baroa), legumes (cenoura, vagem, brócolis), creme de leite sem lactose, manteiga sem lactose, tomate, cebola, alho, colorau, páprica picante, sal, azeite oliva e salsinha.',
+      [tags[0].id, tags[2].id],
+    ],
+    [
+      'Purê de Mandioca com Picadinho de Carne',
+      'Purê Mandioca (120g) + Picadinho de carne (180g)',
+      '20.90',
+      categories[1].id,
+      'Patinho bovino, mandioca, creme de leite sem lactose, manteiga sem lactose, tomate, cebola, alho, colorau, páprica picante, sal, azeite oliva e salsinha.',
+      [tags[0].id, tags[2].id],
+    ],
+    [
+      'Purê de Mandioca com Picadinho de Carne e Legumes',
+      'Purê Mandioca (100g) + Picadinho de carne (150g) + Legumes (50g)',
+      '20.90',
+      categories[1].id,
+      'Patinho bovino, mandioca, legumes (cenoura, vagem, brócolis), creme de leite sem lactose, manteiga sem lactose, tomate, cebola, alho, colorau, páprica picante, sal, azeite oliva e salsinha.',
+      [tags[0].id, tags[2].id],
+    ],
+    [
+      'Espaguete sem glúten com Patinho Moído ao Sugo',
+      'Espaguete integral (150g) + Carne moida ao sugo(150g)',
+      '19.90',
+      categories[1].id,
+      'Patinho moído, espaguete de arroz, tomate, cebola, alho, colorau, páprica picante, sal, pimenta, azeite oliva e salsinha.',
+      [tags[0].id, tags[2].id],
+    ],
+    [
+      'Penne sem glúten com Almôndegas ao Sugo',
+      'Espaguete integral (120g) + Almondegas ao sugo (180g)',
+      '19.90',
+      categories[1].id,
+      'Patinho bovino, penne de arroz integral, tomate, cebola, ovo, farinha de aveia, aveia em flocos, alho, pimenta preta, salsinha, sal e azeite de oliva.',
+      [tags[0].id, tags[2].id],
+    ],
+    [
+      'Crepioca de Patinho Moído',
+      'Crepioca (120g) + Carne moída (180g)',
+      '19.90',
+      categories[1].id,
+      'Patinho bovino, ovo, tapioca, tomate, cebola, alho, colorau, páprica picante, sal, pimenta, azeite oliva e salsinha.',
+      [tags[0].id, tags[2].id],
+    ],
+    [
+      'Arroz integral, Feijão, Legumes e Picadinho de Carne',
+      'Arroz integral c/ feijão (120g) + Picadinho de carne (130g) + Legumes (50g)',
+      '19.90',
+      categories[1].id,
+      'Patinho bovino, arroz integral, feijão, legumes (cenoura, vagem, brócolis), tomate, cebola, alho, colorau, páprica picante, sal, pimenta, azeite oliva e salsinha.',
+      [tags[0].id, tags[1].id],
+    ],
+    [
+      'Escondidinho de Mandioca com Carne de Panela',
+      'Escondidinho de Mandioca (150g) + Carne de Panela (150g)',
+      '22.90',
+      categories[1].id,
+      'Acém bovino, mandioca, creme de leite sem lactose, manteiga sem lactose, queijo muçarela sem lactose, tomate, cebola, alho, colorau, páprica picante, sal, azeite oliva e salsinha.',
+      [tags[0].id, tags[2].id],
+    ],
+    [
+      'Strogonoff de Carne com Arroz integral',
+      'Arroz integral (120g) + Estrogonofe de Carne (180g)',
+      '19.90',
+      categories[1].id,
+      'Patinho bovino, arroz integral, tomate, creme de leite sem lactose, cebola, alho, azeite de oliva, pimenta preta e sal.',
+      [tags[0].id, tags[2].id],
+    ],
+
+    // Sopas
+    [
+      'Canja de Galinha',
+      '',
+      '16.00',
+      categories[2].id,
+      'Arroz branco, sobrecoxa de frango, cebola, alho, salsinha, azeite de oliva e sal. ',
+      [tags[0].id, tags[1].id],
+    ],
+    [
+      'Sopa de Legumes com Carne',
+      '',
+      '18.00',
+      categories[2].id,
+      'Abóbora, mandioca, batata inglesa, cenoura, chuchu, brócolis, abobrinha, vagem, acém bovino, tomate, cebola, alho, páprica picante, páprica doce, salsinha, azeite de oliva e sal',
+      [tags[0].id, tags[1].id],
+    ],
+    [
+      'Sopa de Legumes com Frango',
+      '',
+      '18.00',
+      categories[2].id,
+      'Abóbora, mandioca, batata inglesa, cenoura, chuchu, brócolis, abobrinha, vagem, peito de frango, tomate, cebola, alho, páprica picante, páprica doce, salsinha, azeite de oliva e sal',
+      [tags[0].id, tags[1].id],
+    ],
+    [
+      'Sopa de Legumes Vegetariana',
+      '',
+      '15.00',
+      categories[2].id,
+      'Abóbora, mandioca, batata inglesa, cenoura, chuchu, brócolis, abobrinha, vagem, couve mineira, tomate, cebola, alho, salsinha, azeite de oliva e sal',
+      [tags[0].id, tags[1].id],
+    ],
+    [
+      'Creme de Mandioca com Calabresa e Bacon',
+      '',
+      '20.00',
+      categories[2].id,
+      'Mandioca, calabresa, bacon, cebola, alho, salsinha, azeite de oliva e sal.',
+      [tags[0].id, tags[1].id],
+    ],
+    [
+      'Creme Verde com Calabresa',
+      '',
+      '16.00',
+      categories[2].id,
+      'Batata Inglesa, couve mineira, calabresa, cebola, alho, salsinha, azeite de oliva e sal.',
+      [tags[0].id, tags[1].id],
+    ],
+    [
+      'Creme de Abóbora com Carne Seca',
+      '',
+      '20.00',
+      categories[2].id,
+      'Abóbora cabotiá, carne seca, cebola, alho, salsinha, azeite de oliva e sal.',
+      [tags[0].id, tags[1].id],
+    ],
+    [
+      'Creme de Mandioquinha com Alho poró e Bacon',
+      '',
+      '20.00',
+      categories[2].id,
+      'Mandioquinha (batata baroa), bacon, cebola, alho poró, salsinha, azeite de oliva e sal.',
+      [tags[0].id, tags[1].id],
+    ],
+
+    // Porções
+    [
+      'Feijão Vegano (180ml)',
+      '',
+      '8.00',
+      categories[3].id,
+      'Feijão vermelho, cebola, alho, pimenta preta, sal, salsinha e azeite de oliva. ',
+      [tags[0].id, tags[1].id],
+    ],
+    [
+      'Mix de Legumes (100g)',
+      '',
+      '8.00',
+      categories[3].id,
+      'Cenoura, vagem, brócolis, salsinha e azeite de oliva',
+      [tags[0].id, tags[1].id],
+    ],
+    [
+      'Farofa funcional',
+      '',
+      '5.00',
+      categories[3].id,
+      'Farinha de mandioca, semente de abóbora, semente de girassol, gergelim, linhaça dourada, linhaça preta, oléo de algodão, colorau e sal.',
+      [tags[0].id, tags[1].id],
+    ],
+
+    // Bolos
+    ['Bolo de Chocolate sem glúten e sem açúcar', '', '6.00', categories[4].id, '', [tags[0].id, tags[2].id]],
+    [
+      'Bolo de Banana sem glúten e sem açúcar',
+      '',
+      '6.00',
+      categories[4].id,
+      'Banana, maçã, uva passas, ovos, farinha de aveia, aveia em flocos, óleo de algodão, canela, fermento químico.',
+      [tags[0].id, tags[1].id],
+    ],
+    ['Bolo de Milho sem glúten', '', '6.00', categories[4].id, '', []],
+    [
+      'Bolo de Cenoura sem glúten com Cobertura de Chocolate 70%',
+      '',
+      '6.00',
+      categories[4].id,
+      '',
+      [tags[0].id, tags[2].id],
+    ],
+  ] as const
+  for (let i = 0; i < createProducts.length; i++) {
     const product = {
-      name: faker.commerce.productName(),
-      description: faker.commerce.productDescription(),
-      ingredients: faker.lorem.words(5),
+      name: createProducts[i][0],
+      description: createProducts[i][1],
+      ingredients: createProducts[i][4],
       image: faker.image.url(),
-      price: faker.finance.amount({ min: 10, max: 500, dec: 2 }),
-      categoryId,
+      price: createProducts[i][2],
+      categoryId: createProducts[i][3],
       createdAt: faker.date.past(),
       updatedAt: faker.date.recent(),
     }
@@ -71,119 +290,13 @@ async function main() {
       data: product,
     })
 
-    // Connect product with random allergens
-    const allergenConnections = faker.helpers.arrayElements(allergens).map(a => ({ id: a.id }))
+    // Connect product with tags
     await prisma.product.update({
       where: { id: createdProduct.id },
-      data: { allergens: { connect: allergenConnections } },
-    })
-
-    // Connect product with random tags
-    const tagConnections = faker.helpers.arrayElements(tags).map(t => ({ id: t.id }))
-    await prisma.product.update({
-      where: { id: createdProduct.id },
-      data: { tags: { connect: tagConnections } },
+      data: { tags: { connect: createProducts[i][5].map(tagId => ({ id: tagId })) } },
     })
 
     products.push(createdProduct)
-  }
-
-  // Seed Production
-  const productions = []
-  for (let i = 0; i < 10; i++) {
-    const productId = products[faker.number.int({ min: 0, max: 9 })].id
-    productions.push({
-      productId,
-      quantity: faker.number.int({ min: 1, max: 100 }),
-      productionDate: faker.date.past(),
-      createdAt: faker.date.past(),
-      updatedAt: faker.date.recent(),
-    })
-  }
-  await prisma.production.createMany({ data: productions })
-
-  // Seed ClientContact
-  const clientContacts = []
-  for (let i = 0; i < 10; i++) {
-    const clientId = clients[faker.number.int({ min: 0, max: 9 })].id
-    clientContacts.push({
-      clientId,
-      contactType: faker.helpers.arrayElement(['Email', 'Phone']),
-      contactValue:
-        faker.helpers.arrayElement(['Email', 'Phone']) === 'Email' ? faker.internet.email() : faker.phone.number(),
-      createdAt: faker.date.past(),
-      updatedAt: faker.date.recent(),
-    })
-  }
-  await prisma.clientContact.createMany({ data: clientContacts })
-
-  // Seed Address
-  const addresses = []
-  for (let i = 0; i < 10; i++) {
-    const clientId = clients[faker.number.int({ min: 0, max: 9 })].id
-    addresses.push({
-      clientId,
-      address: faker.location.streetAddress(),
-      number: faker.number.int({ min: 1, max: 1000 }).toString(),
-      complement: faker.helpers.arrayElement([faker.location.secondaryAddress(), null]),
-      reference: faker.helpers.arrayElement([faker.company.name(), null]),
-      city: faker.location.city(),
-      state: faker.location.state({ abbreviated: true }),
-      zipCode: faker.location.zipCode(),
-      createdAt: faker.date.past(),
-      updatedAt: faker.date.recent(),
-    })
-  }
-  await prisma.address.createMany({ data: addresses })
-
-  // Seed Sale, SaleDetail, and SaleHistory
-  const sales = []
-  for (let i = 0; i < 10; i++) {
-    const clientId = clients[faker.number.int({ min: 0, max: 9 })].id
-    const sale = await prisma.sale.create({
-      data: {
-        clientId,
-        address: faker.location.streetAddress(),
-        number: faker.number.int({ min: 1, max: 1000 }).toString(),
-        complement: faker.helpers.arrayElement([faker.location.secondaryAddress(), null]),
-        reference: faker.helpers.arrayElement([faker.company.name(), null]),
-        city: faker.location.city(),
-        state: faker.location.state({ abbreviated: true }),
-        zipCode: faker.location.zipCode(),
-        saleDate: faker.date.past(),
-        paymentStatus: faker.helpers.arrayElement(['Paid', 'Pending', 'Cancelled']),
-        paymentMethod: faker.helpers.arrayElement(['Cash', 'Credit Card', 'PayPal']),
-        deliveryStatus: faker.helpers.arrayElement(['Delivered', 'In Transit', 'Cancelled']),
-        createdAt: faker.date.past(),
-        updatedAt: faker.date.recent(),
-      },
-    })
-    sales.push(sale)
-
-    // Create SaleDetail for each Sale
-    for (let j = 0; j < faker.number.int({ min: 1, max: 5 }); j++) {
-      const productId = products[faker.number.int({ min: 0, max: 9 })].id
-      await prisma.saleDetail.create({
-        data: {
-          saleId: sale.id,
-          productId,
-          quantity: faker.number.int({ min: 1, max: 20 }),
-          salePrice: faker.finance.amount({ min: 10, max: 500, dec: 2 }),
-          createdAt: faker.date.past(),
-          updatedAt: faker.date.recent(),
-        },
-      })
-    }
-
-    // Create SaleHistory for each Sale
-    await prisma.saleHistory.create({
-      data: {
-        saleId: sale.id,
-        status: faker.helpers.arrayElement(['Payment Pending', 'Payment Completed']),
-        createdAt: faker.date.past(),
-        updatedAt: faker.date.recent(),
-      },
-    })
   }
 }
 

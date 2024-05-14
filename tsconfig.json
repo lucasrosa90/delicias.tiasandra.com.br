@@ -19,6 +19,8 @@
       }
     ],
     "paths": {
+      "@/auth": ["./app/auth.ts"],
+      "@/routes": ["./app/routes.ts"],
       "@/server/*": ["./app/api/*"],
       "@/*": ["./lib/*"]
     }

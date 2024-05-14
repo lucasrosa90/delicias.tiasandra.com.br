@@ -2,6 +2,11 @@ import type { Metadata, Viewport } from 'next'
 
 import './globals.css'
 
+import { SessionProvider } from 'next-auth/react'
+
+import { auth } from '@/auth'
+import { Toaster } from '@/components/ui/toaster'
+
 import Providers from './providers'
 
 export const metadata: Metadata = {
@@ -26,12 +31,16 @@ export const viewport: Viewport = {
   themeColor: '#ffffff', // '#f8bb21'
 }
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const session = await auth()
   return (
-    <html lang="en">
-      <body className="[&:has(#backdrop)]:overflow-hidden">
-        <Providers>{children}</Providers>
-      </body>
-    </html>
+    <SessionProvider session={session}>
+      <html lang="en">
+        <body className="[&:has(#backdrop)]:overflow-hidden">
+          <Providers>{children}</Providers>
+          <Toaster />
+        </body>
+      </html>
+    </SessionProvider>
   )
 }

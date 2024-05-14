@@ -2,8 +2,8 @@ import { createServerSideHelpers } from '@trpc/react-query/server'
 
 import { CustomSuperJSON } from '../../lib/utils/superjson.custom'
 
-import { createContext } from './context'
 import { appRouter } from './routers/_app'
+import { createContext } from './trpc/context'
 
 export const createSSRHelper = () =>
   createServerSideHelpers({
